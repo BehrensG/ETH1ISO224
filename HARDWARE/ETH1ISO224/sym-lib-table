@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "ETH1ISO224")(type "KiCad")(uri "${KIPRJMOD}/LIB/SCH/ETH1ISO224.kicad_sym")(options "")(descr ""))
+)
