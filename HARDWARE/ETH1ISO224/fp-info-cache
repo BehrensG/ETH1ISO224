@@ -1,4 +1,4 @@
-23142104357843381
+23167732660297598
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -2073,7 +2073,7 @@ NKK NR01 SP3T SP4T SP5T
 7
 Button_Switch_THT
 SW_PUSH-12mm
-SW PUSH 12mm https://www.e-switch.com/system/asset/product_line/data_sheet/143/TL1100.pdf
+Generic SW PUSH 12mm, e.g https://sten-eswitch-13110800-production.s3.amazonaws.com/system/asset/product_line/data_sheet/143/TL1100.pdf
 tact sw push 12mm
 0
 4
@@ -2101,7 +2101,7 @@ PHAP3362A 6mm tact sw THT
 2
 Button_Switch_THT
 SW_PUSH_6mm
-https://www.omron.com/ecb/products/pdf/en-b3f.pdf
+Generic 6mm SW tactile push button
 tact sw push 6mm
 0
 4
@@ -69819,15 +69819,8 @@ DFN 0.4
 6
 Package_DFN_QFN
 DFN-8-1EP_2x2mm_P0.5mm_EP0.6x1.2mm
-DFN, 8 Pin (https://www.qorvo.com/products/d/da001879), generated with kicad-footprint-generator ipc_noLead_generator.py
-DFN NoLead
-0
-11
-9
-Package_DFN_QFN
-DFN-8-1EP_2x2mm_P0.5mm_EP0.7x1.3mm
-DFN, 8 Pin (https://www.onsemi.com/pub/Collateral/NUF4401MN-D.PDF#page=6), generated with kicad-footprint-generator ipc_noLead_generator.py
-DFN NoLead
+DFN, 8 Pin (https://www.onsemi.com/pub/Collateral/506AQ.PDF), generated with kicad-footprint-generator ipc_noLead_generator.py
+DFN NoLead 506AQ
 0
 13
 9
@@ -70184,13 +70177,6 @@ VDFN DFN 0.65mm
 Package_DFN_QFN
 DFN-14-1EP_3x4mm_P0.5mm_EP1.7x3.3mm
 DE Package; 14-Lead Plastic DFN (4mm x 3mm) (see Linear Technology DFN_14_05-08-1708.pdf)
-DFN 0.5
-0
-23
-15
-Package_DFN_QFN
-DFN-14-1EP_4x4mm_P0.5mm_EP2.86x3.6mm
-DFN14, 4x4, 0.5P; CASE 506CM (see ON Semiconductor 506CM.PDF)
 DFN 0.5
 0
 23
@@ -73317,13 +73303,6 @@ TI RNR0011A
 0
 20
 11
-Package_DFN_QFN
-Texas_VSON-HR-8_1.5x2mm_P0.5mm
-Texas  VSON-HR, 8 Pin (http://www.ti.com/lit/ds/symlink/tps62823.pdf#page=29), generated with kicad-footprint-generator ipc_noLead_generator.py
-Texas VSON-HR NoLead
-0
-8
-8
 Package_DFN_QFN
 Texas_WQFN-MR-100_3x3-DapStencil
 http://www.ti.com/general/docs/lit/getliterature.tsp?baseLiteratureNumber=szza059&fileType=pdf,http://www.ti.com/general/docs/lit/getliterature.tsp?baseLiteratureNumber=mpqf258&fileType=pdf,http://www.ti.com/general/docs/lit/getliterature.tsp?baseLiteratureNumber=LPPD235&fileType=pdf
@@ -77960,8 +77939,8 @@ MSOP SO
 11
 Package_SO
 MSOP-10_3x3mm_P0.5mm
-10-Lead Plastic Micro Small Outline Package (MS) [MSOP] (see Microchip Packaging Specification 00000049BS.pdf)
-SSOP 0.5
+MSOP, 10 Pin (https://www.jedec.org/system/files/docs/mo-187F.pdf variant BA), generated with kicad-footprint-generator ipc_gullwing_generator.py
+MSOP SO
 0
 10
 10
@@ -78135,22 +78114,22 @@ PowerPAK SO-8 Single
 5
 Package_SO
 QSOP-16_3.9x4.9mm_P0.635mm
-16-Lead Plastic Shrink Small Outline Narrow Body (QR)-.150" Body [QSOP] (see Microchip Packaging Specification 00000049BS.pdf)
-SSOP 0.635
+QSOP, 16 Pin (https://pdfserv.maximintegrated.com/package_dwgs/21-0055.PDF), generated with kicad-footprint-generator ipc_gullwing_generator.py
+QSOP SO
 0
 16
 16
 Package_SO
 QSOP-20_3.9x8.7mm_P0.635mm
-20-Lead Plastic Shrink Small Outline Narrow Body (http://www.analog.com/media/en/technical-documentation/data-sheets/ADuM7640_7641_7642_7643.pdf)
-QSOP 0.635
+QSOP, 20 Pin (https://pdfserv.maximintegrated.com/package_dwgs/21-0055.PDF), generated with kicad-footprint-generator ipc_gullwing_generator.py
+QSOP SO
 0
 20
 20
 Package_SO
 QSOP-24_3.9x8.7mm_P0.635mm
-24-Lead Plastic Shrink Small Outline Narrow Body (QR)-.150" Body [QSOP] (see Microchip Packaging Specification 00000049CH.pdf)
-QSOP 0.635
+QSOP, 24 Pin (https://pdfserv.maximintegrated.com/package_dwgs/21-0055.PDF), generated with kicad-footprint-generator ipc_gullwing_generator.py
+QSOP SO
 0
 24
 24
@@ -78248,7 +78227,7 @@ SO SO
 Package_SO
 SO-16_3.9x9.9mm_P1.27mm
 SO, 16 Pin (https://www.nxp.com/docs/en/package-information/SOT109-1.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
-SO SO
+SO SO SOT109-1
 0
 16
 16

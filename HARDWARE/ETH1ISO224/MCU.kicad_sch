@@ -5456,7 +5456,7 @@
 				)
 			)
 		)
-		(symbol "power:+5V"
+		(symbol "power:+5VA"
 			(power)
 			(pin_numbers hide)
 			(pin_names
@@ -5473,7 +5473,7 @@
 					(hide yes)
 				)
 			)
-			(property "Value" "+5V"
+			(property "Value" "+5VA"
 				(at 0 3.556 0)
 				(effects
 					(font
@@ -5499,7 +5499,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(property "Description" "Power symbol creates a global label with name \"+5VA\""
 				(at 0 0 0)
 				(effects
 					(font
@@ -5517,7 +5517,7 @@
 					(hide yes)
 				)
 			)
-			(symbol "+5V_0_1"
+			(symbol "+5VA_0_1"
 				(polyline
 					(pts
 						(xy -0.762 1.27) (xy 0 2.54)
@@ -5555,7 +5555,7 @@
 					)
 				)
 			)
-			(symbol "+5V_1_1"
+			(symbol "+5VA_1_1"
 				(pin power_in line
 					(at 0 0 90)
 					(length 0)
@@ -6278,16 +6278,16 @@
 		(uuid "296cca2e-58bf-4314-bb46-81f7c13d9775")
 	)
 	(no_connect
-		(at 187.96 44.45)
-		(uuid "2a1ef9e3-125c-4747-b9ea-4a97b4845ce8")
-	)
-	(no_connect
 		(at 144.78 90.17)
 		(uuid "2a6aa888-7b19-4959-b0c5-720f51401804")
 	)
 	(no_connect
 		(at 187.96 107.95)
 		(uuid "2a6e9756-2e1a-4352-b32b-d659a5eb7aa2")
+	)
+	(no_connect
+		(at 187.96 74.93)
+		(uuid "2aa9a78e-ceea-4584-b403-ffb7582f21e6")
 	)
 	(no_connect
 		(at 144.78 118.11)
@@ -6316,6 +6316,10 @@
 	(no_connect
 		(at 144.78 59.69)
 		(uuid "3cfbd0cf-2378-4ec6-ae79-b276984b1f50")
+	)
+	(no_connect
+		(at 187.96 77.47)
+		(uuid "429c4567-be85-4b12-b650-0efe67128332")
 	)
 	(no_connect
 		(at 187.96 49.53)
@@ -6358,10 +6362,6 @@
 		(uuid "72c4e78e-462d-46b3-95cc-92f4e65e8f54")
 	)
 	(no_connect
-		(at 187.96 138.43)
-		(uuid "75892c78-f9a3-47c4-879e-9a9356625bc5")
-	)
-	(no_connect
 		(at 144.78 130.81)
 		(uuid "76c3b1c4-9f14-4ff8-9a1b-ebbb8e2cc0cd")
 	)
@@ -6376,10 +6376,6 @@
 	(no_connect
 		(at 187.96 115.57)
 		(uuid "7f49fdac-ddbf-4a28-b7c3-9c26430ac083")
-	)
-	(no_connect
-		(at 187.96 36.83)
-		(uuid "842705fc-d2cc-4195-83ac-7ab279337441")
 	)
 	(no_connect
 		(at 187.96 52.07)
@@ -6484,6 +6480,10 @@
 	(no_connect
 		(at 144.78 123.19)
 		(uuid "f6a68e37-5893-4573-9cad-8581a3b785ae")
+	)
+	(no_connect
+		(at 187.96 133.35)
+		(uuid "fac22eed-50b8-4aa7-a545-edec42a0b961")
 	)
 	(no_connect
 		(at 233.68 152.4)
@@ -6621,7 +6621,7 @@
 	)
 	(wire
 		(pts
-			(xy 189.23 77.47) (xy 187.96 77.47)
+			(xy 189.23 41.91) (xy 187.96 41.91)
 		)
 		(stroke
 			(width 0)
@@ -6671,7 +6671,7 @@
 	)
 	(wire
 		(pts
-			(xy 187.96 133.35) (xy 212.09 133.35)
+			(xy 187.96 135.89) (xy 212.09 135.89)
 		)
 		(stroke
 			(width 0)
@@ -6981,7 +6981,7 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 39.37) (xy 187.96 39.37)
+			(xy 189.23 36.83) (xy 187.96 36.83)
 		)
 		(stroke
 			(width 0)
@@ -7031,7 +7031,7 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 41.91) (xy 187.96 41.91)
+			(xy 189.23 39.37) (xy 187.96 39.37)
 		)
 		(stroke
 			(width 0)
@@ -7071,7 +7071,7 @@
 	)
 	(wire
 		(pts
-			(xy 189.23 74.93) (xy 187.96 74.93)
+			(xy 189.23 44.45) (xy 187.96 44.45)
 		)
 		(stroke
 			(width 0)
@@ -7671,7 +7671,7 @@
 	)
 	(wire
 		(pts
-			(xy 187.96 135.89) (xy 212.09 135.89)
+			(xy 187.96 138.43) (xy 212.09 138.43)
 		)
 		(stroke
 			(width 0)
@@ -8538,7 +8538,7 @@
 		(uuid "58c68c01-0e0e-4ccc-ace2-7ef635621022")
 	)
 	(label "LED_RED"
-		(at 212.09 133.35 180)
+		(at 212.09 138.43 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8650,7 +8650,7 @@
 	)
 	(hierarchical_label "MCU_G1"
 		(shape output)
-		(at 189.23 77.47 0)
+		(at 189.23 41.91 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8746,7 +8746,7 @@
 	)
 	(hierarchical_label "MCU_G10"
 		(shape output)
-		(at 191.77 41.91 0)
+		(at 189.23 39.37 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8758,7 +8758,7 @@
 	)
 	(hierarchical_label "MCU_ZOFFS"
 		(shape output)
-		(at 189.23 74.93 0)
+		(at 189.23 44.45 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8782,7 +8782,7 @@
 	)
 	(hierarchical_label "MCU_G100"
 		(shape output)
-		(at 191.77 39.37 0)
+		(at 189.23 36.83 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11341,7 +11341,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+5V")
+		(lib_id "power:+5VA")
 		(at 50.8 119.38 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -11349,8 +11349,8 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "7bd7b033-7843-4e07-bf65-7cb4356a0734")
-		(property "Reference" "#PWR0410"
+		(uuid "8325c385-dcca-4af3-b0e1-57508bc7aeeb")
+		(property "Reference" "#PWR0407"
 			(at 50.8 123.19 0)
 			(effects
 				(font
@@ -11359,8 +11359,8 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+5V"
-			(at 50.8 115.57 0)
+		(property "Value" "+5VA"
+			(at 50.8 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11385,7 +11385,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Power symbol creates a global label with name \"+5V\""
+		(property "Description" "Power symbol creates a global label with name \"+5VA\""
 			(at 50.8 119.38 0)
 			(effects
 				(font
@@ -11395,18 +11395,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "4b601d3f-b579-4947-b1c8-1206ce9098c8")
+			(uuid "4e83e0b1-fbe2-4695-a3d9-1c82e483613f")
 		)
 		(instances
 			(project "ETH1ISO224"
 				(path "/093d5244-f12f-48bc-bb5b-bcbdc8fa59fa/0064cd61-5529-40f7-bb6b-05e681e46275"
-					(reference "#PWR0410")
-					(unit 1)
-				)
-			)
-			(project "ETH1HMSR-SMS"
-				(path "/c9f88626-4b87-4d35-a77a-42f8d5451fae/b5799081-919e-4d88-9f68-c3d7000bcf73"
-					(reference "#PWR0410")
+					(reference "#PWR0407")
 					(unit 1)
 				)
 			)
