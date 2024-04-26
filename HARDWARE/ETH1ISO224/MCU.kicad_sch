@@ -12209,7 +12209,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9b8f5f69-5e98-437e-bc36-688d49a69cdd")
-		(property "Reference" "#PWR0407"
+		(property "Reference" "#PWR0437"
 			(at 41.91 90.17 0)
 			(effects
 				(font
@@ -12259,7 +12259,7 @@
 		(instances
 			(project "ETH1ISO224"
 				(path "/093d5244-f12f-48bc-bb5b-bcbdc8fa59fa/0064cd61-5529-40f7-bb6b-05e681e46275"
-					(reference "#PWR0407")
+					(reference "#PWR0437")
 					(unit 1)
 				)
 			)
