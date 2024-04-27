@@ -68,8 +68,8 @@
 	)
 	(attr through_hole)
 	(fp_line
-		(start -13.47 -2)
-		(end -13.47 2)
+		(start -13.716 -2)
+		(end -13.716 2)
 		(stroke
 			(width 0.1)
 			(type default)
@@ -78,8 +78,8 @@
 		(uuid "050b778f-81cf-4725-97b8-be0b10b22cd6")
 	)
 	(fp_line
-		(start -13.47 2)
-		(end 12.33 2)
+		(start -13.716 2)
+		(end 12.573 2)
 		(stroke
 			(width 0.1)
 			(type default)
@@ -88,8 +88,8 @@
 		(uuid "b069f35e-f46a-4816-87c9-9fc093f9dbcd")
 	)
 	(fp_line
-		(start 12.33 -2)
-		(end -13.47 -2)
+		(start 12.573 -2)
+		(end -13.716 -2)
 		(stroke
 			(width 0.1)
 			(type default)
@@ -98,8 +98,8 @@
 		(uuid "42fcdf19-3f0c-4f58-a63d-96783b993d86")
 	)
 	(fp_line
-		(start 12.33 2)
-		(end 12.33 -2)
+		(start 12.573 2)
+		(end 12.573 -2)
 		(stroke
 			(width 0.1)
 			(type default)
@@ -108,8 +108,8 @@
 		(uuid "474f03d3-1f64-435f-b53d-4ea0ef894618")
 	)
 	(fp_rect
-		(start -13.57 -2.1)
-		(end 12.43 2.1)
+		(start -13.843 -2.1)
+		(end 12.7 2.1)
 		(stroke
 			(width 0.05)
 			(type default)

@@ -126,7 +126,7 @@
         "min_silk_clearance": 0.0,
         "min_text_height": 0.6,
         "min_text_thickness": 0.08,
-        "min_through_hole_diameter": 0.3,
+        "min_through_hole_diameter": 0.2,
         "min_track_width": 0.0,
         "min_via_annular_width": 0.1,
         "min_via_diameter": 0.5,
@@ -478,6 +478,40 @@
         "via_diameter": 0.5,
         "via_drill": 0.2,
         "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.508,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "24V",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.127,
+        "via_diameter": 0.5,
+        "via_drill": 0.2,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.762,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "High voltage",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.127,
+        "via_diameter": 0.5,
+        "via_drill": 0.2,
+        "wire_width": 6
       }
     ],
     "meta": {
@@ -485,7 +519,24 @@
     },
     "net_colors": null,
     "netclass_assignments": null,
-    "netclass_patterns": []
+    "netclass_patterns": [
+      {
+        "netclass": "24V",
+        "pattern": "Net-(J301-Pin_1)"
+      },
+      {
+        "netclass": "24V",
+        "pattern": "Net-(Q301-D)"
+      },
+      {
+        "netclass": "24V",
+        "pattern": "Net-(D301-K)"
+      },
+      {
+        "netclass": "High voltage",
+        "pattern": "Net-(RN204-common)"
+      }
+    ]
   },
   "pcbnew": {
     "last_paths": {
