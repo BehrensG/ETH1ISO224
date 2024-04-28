@@ -9246,7 +9246,7 @@
 				)
 			)
 		)
-		(property "Value" "LT6350xMS8"
+		(property "Value" "LT6350IMS8"
 			(at 55.626 74.422 0)
 			(effects
 				(font

@@ -543,7 +543,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "",
+      "plot": "../../../../tmp/",
       "pos_files": "",
       "specctra_dsn": "",
       "step": "",
