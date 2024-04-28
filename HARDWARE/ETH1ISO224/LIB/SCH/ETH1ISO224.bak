@@ -1463,7 +1463,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Converter_DCDC:Converter_DCDC_TRACO_TBA1-xxxxE_Single_THT"
+		(property "Footprint" "ETH1ISO224:TBA 1HI"
 			(at 0 -8.89 0)
 			(effects
 				(font
