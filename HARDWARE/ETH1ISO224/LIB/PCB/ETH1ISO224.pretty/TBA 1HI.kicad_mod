@@ -27,7 +27,7 @@
 			)
 		)
 	)
-	(property "Footprint" ""
+	(property "Footprint" "TBA 1HI"
 		(at 0 -1.702 0)
 		(unlocked yes)
 		(layer "F.Fab")
@@ -68,8 +68,8 @@
 	)
 	(attr through_hole)
 	(fp_rect
-		(start -10.2 -3.302)
-		(end 9.7 3.198)
+		(start -10.2 -3.683)
+		(end 10.033 3.198)
 		(stroke
 			(width 0.1)
 			(type default)
@@ -79,8 +79,8 @@
 		(uuid "f1a9c1c5-f26b-4545-a275-aa5c708ce8c5")
 	)
 	(fp_rect
-		(start -10.3 -3.402)
-		(end 9.8 3.298)
+		(start -10.3 -3.81)
+		(end 10.16 3.302)
 		(stroke
 			(width 0.05)
 			(type default)

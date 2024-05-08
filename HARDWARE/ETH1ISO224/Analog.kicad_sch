@@ -8279,6 +8279,16 @@
 		)
 		(uuid "4e1ca786-3faa-4d27-96cb-40a870545b01")
 	)
+	(text "Delete this"
+		(exclude_from_sim no)
+		(at 267.716 66.04 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "aa505678-c57d-48c0-aea2-a077fbda07c3")
+	)
 	(text "NOTE: LT6015 can't be replaced with diff. op amp."
 		(exclude_from_sim no)
 		(at 254.508 19.304 0)
@@ -14425,7 +14435,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "0"
+		(property "Value" "10k"
 			(at 160.655 71.12 0)
 			(effects
 				(font
