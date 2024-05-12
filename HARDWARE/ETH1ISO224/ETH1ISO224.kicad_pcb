@@ -15202,7 +15202,7 @@
 	(footprint "ETH1ISO224:Symbol_Attention_Triangle_8x7mm_Copper"
 		(layer "F.Cu")
 		(uuid "d794197a-da59-4246-a7d7-36ef4496483b")
-		(at 108.077 73.152)
+		(at 111.252 101.727)
 		(descr "Symbol, Attention, 8x7mm, copper layer")
 		(tags "warning graphic")
 		(property "Reference" "SYM201"
@@ -35922,6 +35922,16 @@
 		(uuid "5d196acb-4d14-4bfa-b963-d7fe81f153e9")
 	)
 	(gr_line
+		(start 103.632 101.346)
+		(end 103.632 98.552)
+		(stroke
+			(width 0.5)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "61b03436-1d60-43c9-94f7-87ea72a1f451")
+	)
+	(gr_line
 		(start 141.5415 104.4575)
 		(end 141.5415 105.0925)
 		(stroke
@@ -35970,6 +35980,16 @@
 		)
 		(layer "F.SilkS")
 		(uuid "c666a2ff-bf32-4e8d-bcf4-f3928cf32d18")
+	)
+	(gr_line
+		(start 103.632 76.2)
+		(end 103.632 73.406)
+		(stroke
+			(width 0.5)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "d0b46248-0590-4af1-8047-ce1a31b44d72")
 	)
 	(gr_line
 		(start 164.2745 93.2815)
@@ -36040,6 +36060,16 @@
 		)
 		(layer "F.SilkS")
 		(uuid "fe162dd9-7395-4c57-8876-ce4a9e2faab9")
+	)
+	(gr_line
+		(start 102.235 74.803)
+		(end 105.029 74.803)
+		(stroke
+			(width 0.5)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "fe97f13c-9bd5-4690-8ee1-3e5ef8dab5fe")
 	)
 	(gr_line
 		(start 128.778 97.7265)
