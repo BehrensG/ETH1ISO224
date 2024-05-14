@@ -68,12 +68,24 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define MCU_DEFAULT_Pin LL_GPIO_PIN_2
+#define MCU_DEFAULT_GPIO_Port GPIOE
+#define MCU_G100_Pin LL_GPIO_PIN_3
+#define MCU_G100_GPIO_Port GPIOA
+#define MCU_G10_Pin LL_GPIO_PIN_4
+#define MCU_G10_GPIO_Port GPIOA
+#define MCU_G1_Pin LL_GPIO_PIN_5
+#define MCU_G1_GPIO_Port GPIOA
+#define MCU_ZOFFS_Pin LL_GPIO_PIN_6
+#define MCU_ZOFFS_GPIO_Port GPIOA
 #define LED_BLUE_Pin LL_GPIO_PIN_6
 #define LED_BLUE_GPIO_Port GPIOC
 #define LED_GREEN_Pin LL_GPIO_PIN_8
 #define LED_GREEN_GPIO_Port GPIOC
 #define LED_RED_Pin LL_GPIO_PIN_9
 #define LED_RED_GPIO_Port GPIOC
+#define EEPROM_nWP_Pin LL_GPIO_PIN_5
+#define EEPROM_nWP_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 
