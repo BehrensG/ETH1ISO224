@@ -192,6 +192,7 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "*TRG", .callback = SCPI_Initiate,},
 
 	{.pattern = "NULL:OFFSet:ENAble", .callback = SCPI_NullOffsetEnable,},
+	{.pattern = "NULL:OFFSet:ENAble?", .callback = SCPI_NullOffsetEnableQ,},
 	{.pattern = "NULL:OFFSet", .callback = SCPI_NullOffset,},
 	{.pattern = "NULL:OFFSet?", .callback = SCPI_NullOffsetQ,},
 

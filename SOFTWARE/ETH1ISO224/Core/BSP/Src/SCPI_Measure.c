@@ -151,23 +151,37 @@ scpi_result_t SCPI_NullOffsetEnable(scpi_t * context)
 	return SCPI_RES_OK;
 }
 
+scpi_result_t SCPI_NullOffsetEnableQ(scpi_t * context)
+{
+
+	SCPI_ResultBool(context, bsp.adc.offset.enable);
+
+	return SCPI_RES_OK;
+}
+
 scpi_result_t SCPI_NullOffset(scpi_t * context)
 {
+
+	uint32_t sample_size = ADC_MEASUREMENT_BUFFER/2;
+	bool null_offset_state = bsp.adc.offset.enable;
 	if(pdTRUE == xSemaphoreTake(MeasMutex, pdMS_TO_TICKS(20000)))
 	{
 		HAL_Delay(10);
 		GPIO_DG419(true);
 		HAL_Delay(200);
 
-		if(ADC_Sample(ADC_DEF_SIZE))
+		 bsp.adc.offset.enable = false;
+		if(ADC_Measurement(sample_size))
 		{
-			ADC_SignalConditioningZeroOffset(bsp.adc.gain.value, ADC_DEF_SIZE);
-			bsp.adc.offset.zero[bsp.adc.gain.index] = -1.0f * MEAS_Average(ADC_DEF_SIZE);
+			bsp.adc.offset.zero[bsp.adc.gain.index] = -1.0f * MEAS_Average(sample_size);
+			bsp.adc.offset.enable = null_offset_state;
+			xSemaphoreGive(MeasMutex);
 		}
 		else
 		{
 			xSemaphoreGive(MeasMutex);
 			SCPI_ErrorPush(context, SCPI_ERROR_SYSTEM_ERROR);
+			bsp.adc.offset.enable = null_offset_state;
 			return SCPI_RES_ERR;
 
 			HAL_Delay(1);
@@ -178,7 +192,7 @@ scpi_result_t SCPI_NullOffset(scpi_t * context)
 		HAL_Delay(1);
 		GPIO_DG419(false);
 		HAL_Delay(100);
-
+		bsp.adc.offset.enable = null_offset_state;
 		xSemaphoreGive(MeasMutex);
 
 		return SCPI_RES_OK;

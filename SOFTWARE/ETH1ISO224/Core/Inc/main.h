@@ -80,10 +80,10 @@ void Error_Handler(void);
 #define MCU_ZOFFS_GPIO_Port GPIOA
 #define LED_BLUE_Pin LL_GPIO_PIN_6
 #define LED_BLUE_GPIO_Port GPIOC
-#define LED_RED_Pin LL_GPIO_PIN_7
-#define LED_RED_GPIO_Port GPIOC
 #define LED_GREEN_Pin LL_GPIO_PIN_8
 #define LED_GREEN_GPIO_Port GPIOC
+#define LED_RED_Pin LL_GPIO_PIN_9
+#define LED_RED_GPIO_Port GPIOC
 #define EEPROM_nWP_Pin LL_GPIO_PIN_5
 #define EEPROM_nWP_GPIO_Port GPIOB
 

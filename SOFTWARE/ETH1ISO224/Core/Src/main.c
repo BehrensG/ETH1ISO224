@@ -414,7 +414,7 @@ static void MX_GPIO_Init(void)
   LL_GPIO_SetOutputPin(MCU_G1_GPIO_Port, MCU_G1_Pin);
 
   /**/
-  LL_GPIO_SetOutputPin(GPIOC, LED_BLUE_Pin|LED_RED_Pin|LED_GREEN_Pin);
+  LL_GPIO_SetOutputPin(GPIOC, LED_BLUE_Pin|LED_GREEN_Pin|LED_RED_Pin);
 
   /**/
   LL_GPIO_SetOutputPin(EEPROM_nWP_GPIO_Port, EEPROM_nWP_Pin);
@@ -434,7 +434,7 @@ static void MX_GPIO_Init(void)
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = LED_BLUE_Pin|LED_RED_Pin|LED_GREEN_Pin;
+  GPIO_InitStruct.Pin = LED_BLUE_Pin|LED_GREEN_Pin|LED_RED_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
