@@ -182,11 +182,14 @@ scpi_result_t SCPI_NullOffset(scpi_t * context)
 			xSemaphoreGive(MeasMutex);
 			SCPI_ErrorPush(context, SCPI_ERROR_SYSTEM_ERROR);
 			bsp.adc.offset.enable = null_offset_state;
-			return SCPI_RES_ERR;
+
 
 			HAL_Delay(1);
 			GPIO_DG419(false);
 			HAL_Delay(100);
+
+			return SCPI_RES_ERR;
+
 		}
 
 		HAL_Delay(1);
