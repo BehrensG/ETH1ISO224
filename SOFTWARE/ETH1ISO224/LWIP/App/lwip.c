@@ -28,7 +28,7 @@
 #include "ethernetif.h"
 
 /* USER CODE BEGIN 0 */
-
+#include "BSP.h"
 /* USER CODE END 0 */
 /* Private function prototypes -----------------------------------------------*/
 static void ethernet_link_status_updated(struct netif *netif);
@@ -36,7 +36,7 @@ static void ethernet_link_status_updated(struct netif *netif);
 void Error_Handler(void);
 
 /* USER CODE BEGIN 1 */
-
+extern bsp_t bsp;
 /* USER CODE END 1 */
 
 /* Variables Initialization */
@@ -66,12 +66,24 @@ void MX_LWIP_Init(void)
   NETMASK_ADDRESS[1] = 255;
   NETMASK_ADDRESS[2] = 255;
   NETMASK_ADDRESS[3] = 0;
-  GATEWAY_ADDRESS[0] = 0;
-  GATEWAY_ADDRESS[1] = 0;
-  GATEWAY_ADDRESS[2] = 0;
-  GATEWAY_ADDRESS[3] = 0;
+  GATEWAY_ADDRESS[0] = 192;
+  GATEWAY_ADDRESS[1] = 168;
+  GATEWAY_ADDRESS[2] = 1;
+  GATEWAY_ADDRESS[3] = 1;
 
 /* USER CODE BEGIN IP_ADDRESSES */
+  IP_ADDRESS[0] = bsp.eeprom.structure.ip4_static.ip[0];
+  IP_ADDRESS[1] = bsp.eeprom.structure.ip4_static.ip[1];
+  IP_ADDRESS[2] = bsp.eeprom.structure.ip4_static.ip[2];
+  IP_ADDRESS[3] = bsp.eeprom.structure.ip4_static.ip[3];
+  NETMASK_ADDRESS[0] = bsp.eeprom.structure.ip4_static.netmask[0];
+  NETMASK_ADDRESS[1] = bsp.eeprom.structure.ip4_static.netmask[1];
+  NETMASK_ADDRESS[2] = bsp.eeprom.structure.ip4_static.netmask[2];
+  NETMASK_ADDRESS[3] = bsp.eeprom.structure.ip4_static.netmask[3];
+  GATEWAY_ADDRESS[0] = bsp.eeprom.structure.ip4_static.gateway[0];
+  GATEWAY_ADDRESS[1] = bsp.eeprom.structure.ip4_static.gateway[1];
+  GATEWAY_ADDRESS[2] = bsp.eeprom.structure.ip4_static.gateway[2];
+  GATEWAY_ADDRESS[3] = bsp.eeprom.structure.ip4_static.gateway[3];
 /* USER CODE END IP_ADDRESSES */
 
   /* Initialize the LwIP stack with RTOS */

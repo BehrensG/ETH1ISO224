@@ -126,7 +126,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     __HAL_LINKDMA(hadc,DMA_Handle,hdma_adc3);
 
     /* ADC3 interrupt Init */
-    HAL_NVIC_SetPriority(ADC3_IRQn, 5, 0);
+    HAL_NVIC_SetPriority(ADC3_IRQn, 6, 0);
     HAL_NVIC_EnableIRQ(ADC3_IRQn);
   /* USER CODE BEGIN ADC3_MspInit 1 */
 

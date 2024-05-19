@@ -23,7 +23,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "SCPI_Server.h"
+#include "BSP.h"
+#include "LED.h"
+#include "ADC.h"
+#include "UDP.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -33,7 +37,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -48,7 +51,15 @@ DMA_HandleTypeDef hdma_adc3;
 I2C_HandleTypeDef hi2c1;
 
 osThreadId defaultTaskHandle;
+uint32_t defaultTaskBuffer[ 512 ];
+osStaticThreadDef_t defaultTaskControlBlock;
 /* USER CODE BEGIN PV */
+extern bsp_t bsp;
+extern bsp_eeprom_t eeprom_default;
+extern xQueueHandle QueueLEDHandle;
+extern uint16_t adc_data[];
+
+SemaphoreHandle_t MeasMutex;
 
 /* USER CODE END PV */
 
@@ -118,11 +129,18 @@ int main(void)
   MX_ADC3_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-
+  LED_Control(BLUE, true);
+  HAL_Delay(500);
+  BSP_Init();
+  ADC_AutoCalibration();
+  ADC_InitMemory();
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
+
+  MeasMutex = xSemaphoreCreateMutex();
+
   /* USER CODE END RTOS_MUTEX */
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
@@ -135,11 +153,12 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
+  QueueLEDHandle = xQueueCreate(1, sizeof(uint32_t));
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
+  osThreadStaticDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 512, defaultTaskBuffer, &defaultTaskControlBlock);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
@@ -389,16 +408,16 @@ static void MX_GPIO_Init(void)
   LL_AHB4_GRP1_EnableClock(LL_AHB4_GRP1_PERIPH_GPIOB);
 
   /**/
-  LL_GPIO_ResetOutputPin(GPIOA, MCU_G100_Pin|MCU_G10_Pin|MCU_G1_Pin|MCU_ZOFFS_Pin);
+  LL_GPIO_ResetOutputPin(GPIOA, MCU_G100_Pin|MCU_G10_Pin|MCU_ZOFFS_Pin);
 
   /**/
-  LL_GPIO_ResetOutputPin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
+  LL_GPIO_SetOutputPin(MCU_G1_GPIO_Port, MCU_G1_Pin);
 
   /**/
-  LL_GPIO_ResetOutputPin(EEPROM_nWP_GPIO_Port, EEPROM_nWP_Pin);
+  LL_GPIO_SetOutputPin(GPIOC, LED_BLUE_Pin|LED_RED_Pin|LED_GREEN_Pin);
 
   /**/
-  LL_GPIO_SetOutputPin(GPIOC, LED_BLUE_Pin|LED_RED_Pin);
+  LL_GPIO_SetOutputPin(EEPROM_nWP_GPIO_Port, EEPROM_nWP_Pin);
 
   /**/
   GPIO_InitStruct.Pin = MCU_DEFAULT_Pin;
@@ -409,15 +428,15 @@ static void MX_GPIO_Init(void)
   /**/
   GPIO_InitStruct.Pin = MCU_G100_Pin|MCU_G10_Pin|MCU_G1_Pin|MCU_ZOFFS_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = LED_BLUE_Pin|LED_GREEN_Pin|LED_RED_Pin;
+  GPIO_InitStruct.Pin = LED_BLUE_Pin|LED_RED_Pin|LED_GREEN_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
@@ -425,7 +444,7 @@ static void MX_GPIO_Init(void)
   /**/
   GPIO_InitStruct.Pin = EEPROM_nWP_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   LL_GPIO_Init(EEPROM_nWP_GPIO_Port, &GPIO_InitStruct);
@@ -435,6 +454,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
 
 /* USER CODE END 4 */
 
@@ -450,13 +470,47 @@ void StartDefaultTask(void const * argument)
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN 5 */
+
+  led_select_t  led_color_status = GREEN, led_color_tmp = GREEN;
+
+  if(bsp.default_cfg)
+  {
+	  led_color_tmp = led_color_status = BLUE;
+
+  }
+
+  osDelay(pdMS_TO_TICKS(300)); // Need this wait to get lwip to work
+  SCPI_CreateTask();
+  UDP_CreateTask();
+  LED_Control(BLUE, false);
   /* Infinite loop */
   for(;;)
   {
-	LL_GPIO_SetOutputPin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
-    osDelay(500);
-    LL_GPIO_ResetOutputPin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
-    osDelay(10);
+
+	  if(pdTRUE == xQueueReceive(QueueLEDHandle, &led_color_status, 5U))
+	  {
+		  led_color_tmp = led_color_status;
+	  }
+	  else
+	  {
+		  led_color_status = led_color_tmp;
+	  }
+
+	  if(bsp.led)
+	  {
+		  switch(led_color_status)
+		  {
+		  	  case RED: LED_Toggle(RED, 10, 990); break;
+		  	  case GREEN: LED_Toggle(GREEN, 1, 1000); break;
+		  	  case BLUE: LED_Toggle(BLUE, 10, 990); break;
+		  	  default: LED_Toggle(RED, 10, 990); break;
+		  }
+	  }
+	  else
+	  {
+		  osDelay(pdMS_TO_TICKS(10));
+	  }
+
   }
   /* USER CODE END 5 */
 }
@@ -465,23 +519,51 @@ void StartDefaultTask(void const * argument)
 
 void MPU_Config(void)
 {
+  MPU_Region_InitTypeDef MPU_InitStruct = {0};
 
   /* Disables the MPU */
-  LL_MPU_Disable();
+  HAL_MPU_Disable();
 
   /** Initializes and configures the Region and the memory to be protected
   */
-  LL_MPU_ConfigRegion(LL_MPU_REGION_NUMBER0, 0x87, 0x0, LL_MPU_REGION_SIZE_4GB|LL_MPU_TEX_LEVEL0|LL_MPU_REGION_NO_ACCESS|LL_MPU_INSTRUCTION_ACCESS_DISABLE|LL_MPU_ACCESS_SHAREABLE|LL_MPU_ACCESS_NOT_CACHEABLE|LL_MPU_ACCESS_NOT_BUFFERABLE);
+  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+  MPU_InitStruct.Number = MPU_REGION_NUMBER0;
+  MPU_InitStruct.BaseAddress = 0x0;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_4GB;
+  MPU_InitStruct.SubRegionDisable = 0x87;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+  MPU_InitStruct.AccessPermission = MPU_REGION_NO_ACCESS;
+  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+
+  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
   /** Initializes and configures the Region and the memory to be protected
   */
-  LL_MPU_ConfigRegion(LL_MPU_REGION_NUMBER1, 0x0, 0x30020000, LL_MPU_REGION_SIZE_128KB|LL_MPU_TEX_LEVEL1|LL_MPU_REGION_FULL_ACCESS|LL_MPU_INSTRUCTION_ACCESS_DISABLE|LL_MPU_ACCESS_NOT_SHAREABLE|LL_MPU_ACCESS_NOT_CACHEABLE|LL_MPU_ACCESS_NOT_BUFFERABLE);
+  MPU_InitStruct.Number = MPU_REGION_NUMBER1;
+  MPU_InitStruct.BaseAddress = 0x30020000;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_128KB;
+  MPU_InitStruct.SubRegionDisable = 0x0;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
+  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
+
+  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
   /** Initializes and configures the Region and the memory to be protected
   */
-  LL_MPU_ConfigRegion(LL_MPU_REGION_NUMBER2, 0x0, 0x30040000, LL_MPU_REGION_SIZE_512B|LL_MPU_TEX_LEVEL0|LL_MPU_REGION_FULL_ACCESS|LL_MPU_INSTRUCTION_ACCESS_DISABLE|LL_MPU_ACCESS_SHAREABLE|LL_MPU_ACCESS_NOT_CACHEABLE|LL_MPU_ACCESS_BUFFERABLE);
+  MPU_InitStruct.Number = MPU_REGION_NUMBER2;
+  MPU_InitStruct.BaseAddress = 0x30040000;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_512B;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
+
+  HAL_MPU_ConfigRegion(&MPU_InitStruct);
   /* Enables the MPU */
-  LL_MPU_Enable(LL_MPU_CTRL_PRIVILEGED_DEFAULT);
+  HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 
 }
 
@@ -515,8 +597,12 @@ void Error_Handler(void)
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
+
+  LED_Control(GREEN | BLUE, false);
+
   while (1)
   {
+	  LED_Control(RED, true);
   }
   /* USER CODE END Error_Handler_Debug */
 }
