@@ -3263,7 +3263,7 @@
 		(uuid "3618dd8b-16b3-4192-a57a-a5f9a508e13b")
 		(at 126.238 105.664 180)
 		(property "Reference" "U202"
-			(at 1.016 3.937 0)
+			(at 2.413 3.937 0)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "d32fc900-975e-4839-aee3-7b0d85c3c8e6")
@@ -35742,8 +35742,8 @@
 		(uuid "4d7ba813-bf08-4a9d-9c9e-7d1e6d3aad21")
 	)
 	(gr_line
-		(start 128.778 66.167)
-		(end 128.778 109.093)
+		(start 127.5 66)
+		(end 127.5 98.5)
 		(stroke
 			(width 0.3)
 			(type dash)
@@ -35862,8 +35862,8 @@
 		(uuid "1a232a59-4803-4a16-8a23-0ed9a6c4665f")
 	)
 	(gr_line
-		(start 128.778 66.167)
-		(end 128.778 89.916)
+		(start 128.778 66)
+		(end 128.778 90)
 		(stroke
 			(width 0.3)
 			(type dash)
@@ -36072,25 +36072,85 @@
 		(uuid "fe97f13c-9bd5-4690-8ee1-3e5ef8dab5fe")
 	)
 	(gr_line
-		(start 128.778 97.7265)
-		(end 128.778 101.4095)
-		(stroke
-			(width 0.3)
-			(type dash)
-		)
-		(layer "F.SilkS")
-		(uuid "ffc1f816-aa91-43a1-a266-2eb26ba534d0")
-	)
-	(gr_rect
-		(start 100.5 65)
+		(start 129 110)
 		(end 200.5 110)
 		(stroke
 			(width 0.05)
 			(type default)
 		)
-		(fill none)
 		(layer "Edge.Cuts")
-		(uuid "80daa8fc-ad5a-40cc-bf98-4c68354d074d")
+		(uuid "115a5287-55fe-471c-b3d2-342a17686ff1")
+	)
+	(gr_line
+		(start 100.5 110)
+		(end 126 110)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "4e6fdc04-caca-4a74-abaf-be1db72d162a")
+	)
+	(gr_line
+		(start 129 110)
+		(end 129 101)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "5b825d15-14ae-4ca4-bb7b-d36f124989d3")
+	)
+	(gr_line
+		(start 200.5 65)
+		(end 100.5 65)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "80cafb65-51b0-49dd-834e-fd2deb795254")
+	)
+	(gr_line
+		(start 126 110)
+		(end 126 101)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "87344e1b-b490-4c29-807c-2e1cee9c0dd3")
+	)
+	(gr_arc
+		(start 126 101)
+		(mid 127.5 99.50085)
+		(end 129 101)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "e344f991-3f4a-4044-b717-10aed18a1cd6")
+	)
+	(gr_line
+		(start 100.5 65)
+		(end 100.5 110)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "e6c19e71-eaa3-432d-97bc-dad848fae4ff")
+	)
+	(gr_line
+		(start 200.5 110)
+		(end 200.5 65)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "f31f508c-89fc-4296-92fc-ae81115f07f4")
 	)
 	(gr_text "1"
 		(at 185.801 108.458 0)
@@ -36163,7 +36223,7 @@
 			(justify bottom)
 		)
 	)
-	(gr_text "ETH1ISO224 V1.1\nDefault IP : 192.168.1.21"
+	(gr_text "ETH1ISO224 V1.2\nDefault IP : 192.168.1.21"
 		(at 162.052 109.347 0)
 		(layer "F.SilkS")
 		(uuid "c644a1c6-4047-418a-b574-53d9a9594474")
@@ -43330,27 +43390,27 @@
 	)
 	(segment
 		(start 116.713 92.386)
-		(end 118.745 94.418)
+		(end 116.713 92.7995)
 		(width 0.508)
 		(layer "B.Cu")
 		(net 56)
-		(uuid "05f434ff-d460-4f39-bf9e-74464f6480de")
+		(uuid "24a9c7fa-ca00-4fcb-9462-2c8a83f299b9")
 	)
 	(segment
-		(start 118.745 94.996)
-		(end 119.914 96.165)
+		(start 118.5 94.5865)
+		(end 118.5 95.5)
 		(width 0.508)
 		(layer "B.Cu")
 		(net 56)
-		(uuid "7a9b01d8-b053-45c1-b4b2-0f9ba2234aeb")
+		(uuid "301ee92a-aa82-4094-b3a5-f57f29086803")
 	)
 	(segment
-		(start 119.914 96.165)
-		(end 120.396 96.165)
+		(start 116.713 92.7995)
+		(end 118.5 94.5865)
 		(width 0.508)
 		(layer "B.Cu")
 		(net 56)
-		(uuid "cce86b86-b5de-4ef3-a125-ec9d44c2d4d3")
+		(uuid "3a759274-a822-4c08-902f-a1dd9fe61501")
 	)
 	(segment
 		(start 120.396 98.018)
@@ -43361,12 +43421,20 @@
 		(uuid "dca17645-de3b-4747-871a-72a7026b3c30")
 	)
 	(segment
-		(start 118.745 94.418)
-		(end 118.745 94.996)
+		(start 119.165 96.165)
+		(end 120.396 96.165)
 		(width 0.508)
 		(layer "B.Cu")
 		(net 56)
-		(uuid "de1e11e6-2dca-46d3-8e9c-80783608e3c1")
+		(uuid "ee7e834e-a3c1-492f-b914-daca11710094")
+	)
+	(segment
+		(start 118.5 95.5)
+		(end 119.165 96.165)
+		(width 0.508)
+		(layer "B.Cu")
+		(net 56)
+		(uuid "f11aa6fa-f11a-4f9b-887e-a4fe0fc92036")
 	)
 	(segment
 		(start 138.43 83.882)
