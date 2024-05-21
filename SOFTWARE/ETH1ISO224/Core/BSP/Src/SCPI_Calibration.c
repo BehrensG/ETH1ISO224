@@ -47,8 +47,8 @@ scpi_result_t SCPI_CalibrationStore(scpi_t * context)
 	return SCPI_RES_OK;
 }
 
-#define CAL_LIMIT_HIGH	1.01f
-#define CAL_LIMIT_LOW	9.99f
+#define CAL_LIMIT_HIGH	1.1f
+#define CAL_LIMIT_LOW	0.9f
 #define CAL_SAMP_COUNT	1000
 
 extern float measurements[];
@@ -113,7 +113,7 @@ scpi_result_t SCPI_CalibrationValue(scpi_t * context)
 		else
 		{
 			xSemaphoreGive(MeasMutex);
-			SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_MEMORY_SECURE);
+			SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_MEAS_OUT_OF_RANGE);
 			return SCPI_RES_ERR;
 		}
 

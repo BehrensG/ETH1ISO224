@@ -26,7 +26,7 @@ void ADC_ConfigureOverSampling(FunctionalState enable, uint32_t ratio);
 bool ADC_CheckOverSamplingRation(uint32_t value);
 bool ADC_Sample(uint32_t sample_count);
 void ADC_AutoCalibration(void);
-void ADC_SignalConditioning(uint8_t gain, uint32_t sample_count, float offset, float calib_gain);
+void ADC_SignalConditioning(uint8_t gain, uint32_t sample_count, float offset, float calib_gain, float math_offset);
 void ADC_SignalConditioningZeroOffset(uint8_t gain, uint32_t sample_count);
 uint32_t ADC_RightBitShift(uint32_t value);
 bool ADC_Measurement(uint32_t sample_count);

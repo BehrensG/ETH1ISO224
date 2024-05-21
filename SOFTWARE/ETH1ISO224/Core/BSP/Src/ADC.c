@@ -88,15 +88,15 @@ bool ADC_Sample(uint32_t sample_count)
 }
 
 
-void ADC_SignalConditioning(uint8_t gain, uint32_t sample_count, float offset, float calib_gain)
+void ADC_SignalConditioning(uint8_t gain, uint32_t sample_count, float offset, float calib_gain, float math_offset)
 {
 	float adc = 0.0f;
 	float inv_gain = 1.0f/(float)gain;
 
 	for(uint32_t x = 0; x < sample_count; x++)
 	{
-		adc = inv_gain * (bsp.adc.resolution * adc_data[x] - bsp.adc.vcom);
-		measurements[x] = calib_gain * bsp.iso224.multiply  * bsp.iso224.gain * adc + offset;
+		adc = inv_gain * (bsp.adc.resolution * adc_data[x] - bsp.adc.vcom)  + offset;
+		measurements[x] = calib_gain * bsp.iso224.multiply  * bsp.iso224.gain * adc + math_offset;
 	}
 
 
@@ -311,13 +311,15 @@ void ADC_BspReset(void)
 bool ADC_Measurement(uint32_t sample_count)
 {
 	float zero_offset = 0.0f;
+	float math_offset = 0.0f;
 	float cal_gain = bsp.eeprom.structure.calibration.gain[bsp.adc.gain.index];
 
 	if(ADC_Sample(sample_count))
 	{
 		(bsp.adc.offset.enable) ? (zero_offset = bsp.adc.offset.zero[bsp.adc.gain.index]) : (zero_offset = 0.0f);
+		(bsp.adc.math_offset.enable) ? (math_offset = bsp.adc.math_offset.zero[bsp.adc.gain.index]) : (math_offset = 0.0f);
 
-		ADC_SignalConditioning(bsp.adc.gain.value, sample_count, zero_offset, cal_gain);
+		ADC_SignalConditioning(bsp.adc.gain.value, sample_count, zero_offset, cal_gain, math_offset);
 
 		return true;
 	}
@@ -331,7 +333,7 @@ bool ADC_CalibrationMeasurement(uint32_t sample_count)
 	if(ADC_Sample(sample_count))
 	{
 
-		ADC_SignalConditioning(bsp.adc.gain.value, sample_count, 0.0f, 1.0f);
+		ADC_SignalConditioning(bsp.adc.gain.value, sample_count, 0.0f, 1.0f, 0.0f);
 
 		return true;
 	}

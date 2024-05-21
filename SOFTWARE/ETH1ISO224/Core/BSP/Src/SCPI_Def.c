@@ -50,6 +50,7 @@
 #include "SCPI_Calibration.h"
 #include "SCPI_Format.h"
 #include "SCPI_Calculate.h"
+#include "SCPI_Math.h"
 #include "printf.h"
 #include "FloatToString.h"
 #include "BSP.h"
@@ -206,6 +207,11 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "FORMat[:DATA]?", .callback = SCPI_FormatDataQ,},
 
 	{.pattern = "CALCulate:AVERage?", .callback = SCPI_CalculateAverageQ,},
+
+	{.pattern = "MATH:OFFSet:ENAble", .callback = SCPI_MathOffsetEnable,},
+	{.pattern = "MATH:OFFSet:ENAble?", .callback = SCPI_MathOffsetEnableQ,},
+	{.pattern = "MATH:OFFSet", .callback = SCPI_MathOffset,},
+	{.pattern = "MATH:OFFSet?", .callback = SCPI_MathOffsetQ,},
 
 	SCPI_CMD_LIST_END
 };

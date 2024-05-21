@@ -165,6 +165,7 @@ typedef struct
 	uint32_t sample_count;
 	float vcom;
 	bsp_offset_t offset;
+	bsp_offset_t math_offset;
 	float resolution;
 	uint32_t right_bit_shift;
 

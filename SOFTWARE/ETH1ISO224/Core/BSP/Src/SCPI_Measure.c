@@ -161,7 +161,8 @@ scpi_result_t SCPI_NullOffsetEnableQ(scpi_t * context)
 
 scpi_result_t SCPI_NullOffset(scpi_t * context)
 {
-	uint32_t sample_size = ADC_MEASUREMENT_BUFFER/2;
+	uint32_t sample_size = ADC_DEF_SIZE;
+	uint8_t gain = bsp.adc.gain.value;
 	bool null_offset_state = bsp.adc.offset.enable;
 
 	if(pdTRUE == xSemaphoreTake(MeasMutex, pdMS_TO_TICKS(20000)))
@@ -172,8 +173,9 @@ scpi_result_t SCPI_NullOffset(scpi_t * context)
 
 	 bsp.adc.offset.enable = false;
 
-		if(ADC_Measurement(sample_size))
+		if(ADC_Sample(sample_size))
 		{
+			ADC_SignalConditioningZeroOffset(gain, sample_size);
 			bsp.adc.offset.zero[bsp.adc.gain.index] = -1.0f * MEAS_Average(sample_size);
 			bsp.adc.offset.enable = null_offset_state;
 		}
