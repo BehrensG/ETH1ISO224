@@ -11,7 +11,9 @@
 #include "LED.h"
 #include "types.h"
 #include "cmsis_os.h"
+#include "BSP.h"
 
+extern bsp_t bsp;
 
 xQueueHandle QueueLEDHandle;
 
@@ -64,7 +66,8 @@ void LED_osQueue(led_select_t LED_state)
 
 		case BLUE:
 		{
-			LL_GPIO_ResetOutputPin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
+			if(bsp.led)
+				LL_GPIO_ResetOutputPin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
 
 		}; break;
 

@@ -471,11 +471,11 @@ void StartDefaultTask(void const * argument)
   MX_LWIP_Init();
   /* USER CODE BEGIN 5 */
 
-  led_select_t  led_color_status = GREEN, led_color_tmp = GREEN;
+  led_select_t  led_color_status = GREEN;
 
   if(bsp.default_cfg)
   {
-	  led_color_tmp = led_color_status = BLUE;
+	   led_color_status = BLUE;
 
   }
 
@@ -489,26 +489,26 @@ void StartDefaultTask(void const * argument)
 
 	  if(pdTRUE == xQueueReceive(QueueLEDHandle, &led_color_status, 5U))
 	  {
-		  led_color_tmp = led_color_status;
+		 // led_color_tmp = led_color_status;
 	  }
 	  else
 	  {
-		  led_color_status = led_color_tmp;
+		  led_color_status = LED_NONE;
 	  }
 
 	  if(bsp.led)
 	  {
 		  switch(led_color_status)
 		  {
-		  	  case RED: LED_Toggle(RED, 10, 990); break;
-		  	  case GREEN: LED_Toggle(GREEN, 1, 1000); break;
-		  	  case BLUE: LED_Toggle(BLUE, 10, 990); break;
-		  	  default: LED_Toggle(RED, 10, 990); break;
+		  	  case RED: LED_Toggle(RED, 1, 1); break;
+		  	  case GREEN: LED_Toggle(GREEN, 1, 1); break;
+		  	  case BLUE: LED_Toggle(BLUE, 1, 1); break;
+		  	  default: osDelay(pdMS_TO_TICKS(1)); break;
 		  }
 	  }
 	  else
 	  {
-		  osDelay(pdMS_TO_TICKS(10));
+		  osDelay(pdMS_TO_TICKS(1));
 	  }
 
   }

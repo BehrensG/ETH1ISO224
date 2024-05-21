@@ -24,6 +24,8 @@
 extern bsp_t bsp;
 extern float measurements[];
 extern SemaphoreHandle_t MeasMutex;
+extern osThreadId defaultTaskHandle;
+
 
 osThreadId UDPTaskHandle;
 uint32_t UDPTaskBuffer[1024];
@@ -67,7 +69,7 @@ void StartUDPTask(void const *argument);
 
 void UDP_CreateTask(void) {
 
-	osThreadStaticDef(UDPTask, StartUDPTask, osPriorityAboveNormal, 0,
+	osThreadStaticDef(UDPTask, StartUDPTask, osPriorityRealtime, 0,
 			DEFAULT_THREAD_STACKSIZE, UDPTaskBuffer, &UDPTaskControlBlock);
 	UDPTaskHandle = osThreadCreate(osThread(UDPTask), NULL);
 
@@ -166,6 +168,7 @@ typedef enum {
 
 } addon_t;
 
+
 static err_t UDP_Send(char *data, uint32_t bytes_count, addon_t addon) {
 	struct netbuf *buf;
 	err_t err = ERR_OK;
@@ -195,6 +198,7 @@ static err_t UDP_Send(char *data, uint32_t bytes_count, addon_t addon) {
 
 	return err;
 }
+
 
 /****************** NEW TEST CODE START *********************/
 

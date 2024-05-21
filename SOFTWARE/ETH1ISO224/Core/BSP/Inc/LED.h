@@ -12,9 +12,11 @@
 
 typedef enum led_select
 {
+	LED_NONE = 0x0,
 	RED = 0x1,
 	GREEN = 0x2,
 	BLUE = 0x4
+
 }led_select_t;
 
 #define LED_ALL (RED | GREEN | BLUE)
