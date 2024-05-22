@@ -10,6 +10,7 @@
 #include "SCPI_Math.h"
 #include "BSP.h"
 #include "ADC.h"
+#include "GPIO.h"
 
 extern float measurements[];
 extern SemaphoreHandle_t MeasMutex;
@@ -57,7 +58,6 @@ static float MATH_Average(uint32_t sample_count)
 scpi_result_t SCPI_MathOffset(scpi_t * context)
 {
 	uint32_t sample_size = ADC_DEF_SIZE;
-	uint8_t gain = bsp.adc.gain.value;
 	bool null_offset_state = bsp.adc.math_offset.enable;
 
 	if(pdTRUE == xSemaphoreTake(MeasMutex, pdMS_TO_TICKS(20000)))
@@ -120,5 +120,22 @@ scpi_result_t SCPI_MathOffsetQ(scpi_t * context)
 
 	float offset =  bsp.adc.math_offset.zero[index];
 	SCPI_ResultFloat(context, offset);
+	return SCPI_RES_OK;
+}
+
+
+scpi_result_t SCPI_MathAverageQ(scpi_t * context)
+{
+
+	if(pdTRUE == xSemaphoreTake(MeasMutex, pdMS_TO_TICKS(20000)))
+	{
+		SCPI_ResultFloat(context, MATH_Average(bsp.adc.sample_count));
+		xSemaphoreGive(MeasMutex);
+	}
+	else
+	{
+		return SCPI_RES_ERR;
+	}
+
 	return SCPI_RES_OK;
 }

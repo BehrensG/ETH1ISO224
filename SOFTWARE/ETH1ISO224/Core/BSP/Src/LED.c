@@ -33,9 +33,9 @@ void LED_Control(led_select_t LEDs, bool enable)
 void LED_Toggle(led_select_t LEDs, uint32_t time_on, uint32_t time_off)
 {
 	LED_Control(LEDs, true);
-	osDelay(pdMS_TO_TICKS(time_on));
+	HAL_Delay(time_on);
 	LED_Control(LEDs, false);
-	osDelay(pdMS_TO_TICKS(time_off));
+	HAL_Delay(time_off);
 }
 
 

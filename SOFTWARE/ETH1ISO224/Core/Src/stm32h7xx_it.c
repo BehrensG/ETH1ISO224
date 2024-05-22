@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "LED.h"
+#include "cmsis_os.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -59,10 +60,11 @@
 extern ETH_HandleTypeDef heth;
 extern DMA_HandleTypeDef hdma_adc3;
 extern ADC_HandleTypeDef hadc3;
+extern TIM_HandleTypeDef htim3;
 extern TIM_HandleTypeDef htim1;
 
 /* USER CODE BEGIN EV */
-
+extern xQueueHandle QueueLEDHandle;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -191,6 +193,22 @@ void TIM1_UP_IRQHandler(void)
   /* USER CODE BEGIN TIM1_UP_IRQn 1 */
 
   /* USER CODE END TIM1_UP_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM3 global interrupt.
+  */
+void TIM3_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM3_IRQn 0 */
+	static uint8_t led_color_send;
+	led_color_send = GREEN;
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+  /* USER CODE END TIM3_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim3);
+  /* USER CODE BEGIN TIM3_IRQn 1 */
+  xQueueSendToFrontFromISR(QueueLEDHandle,&led_color_send,&xHigherPriorityTaskWoken);
+  /* USER CODE END TIM3_IRQn 1 */
 }
 
 /**
