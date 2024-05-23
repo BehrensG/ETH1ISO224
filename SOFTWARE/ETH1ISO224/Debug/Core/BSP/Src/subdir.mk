@@ -13,10 +13,10 @@ C_SRCS += \
 ../Core/BSP/Src/GPIO.c \
 ../Core/BSP/Src/LED.c \
 ../Core/BSP/Src/SCPI_ADC.c \
+../Core/BSP/Src/SCPI_Calculate.c \
 ../Core/BSP/Src/SCPI_Calibration.c \
 ../Core/BSP/Src/SCPI_Def.c \
 ../Core/BSP/Src/SCPI_Format.c \
-../Core/BSP/Src/SCPI_Math.c \
 ../Core/BSP/Src/SCPI_Measure.c \
 ../Core/BSP/Src/SCPI_Server.c \
 ../Core/BSP/Src/SCPI_System.c \
@@ -33,10 +33,10 @@ OBJS += \
 ./Core/BSP/Src/GPIO.o \
 ./Core/BSP/Src/LED.o \
 ./Core/BSP/Src/SCPI_ADC.o \
+./Core/BSP/Src/SCPI_Calculate.o \
 ./Core/BSP/Src/SCPI_Calibration.o \
 ./Core/BSP/Src/SCPI_Def.o \
 ./Core/BSP/Src/SCPI_Format.o \
-./Core/BSP/Src/SCPI_Math.o \
 ./Core/BSP/Src/SCPI_Measure.o \
 ./Core/BSP/Src/SCPI_Server.o \
 ./Core/BSP/Src/SCPI_System.o \
@@ -53,10 +53,10 @@ C_DEPS += \
 ./Core/BSP/Src/GPIO.d \
 ./Core/BSP/Src/LED.d \
 ./Core/BSP/Src/SCPI_ADC.d \
+./Core/BSP/Src/SCPI_Calculate.d \
 ./Core/BSP/Src/SCPI_Calibration.d \
 ./Core/BSP/Src/SCPI_Def.d \
 ./Core/BSP/Src/SCPI_Format.d \
-./Core/BSP/Src/SCPI_Math.d \
 ./Core/BSP/Src/SCPI_Measure.d \
 ./Core/BSP/Src/SCPI_Server.d \
 ./Core/BSP/Src/SCPI_System.d \
@@ -72,7 +72,7 @@ Core/BSP/Src/%.o Core/BSP/Src/%.su Core/BSP/Src/%.cyclo: ../Core/BSP/Src/%.c Cor
 clean: clean-Core-2f-BSP-2f-Src
 
 clean-Core-2f-BSP-2f-Src:
-	-$(RM) ./Core/BSP/Src/ADC.cyclo ./Core/BSP/Src/ADC.d ./Core/BSP/Src/ADC.o ./Core/BSP/Src/ADC.su ./Core/BSP/Src/BSP.cyclo ./Core/BSP/Src/BSP.d ./Core/BSP/Src/BSP.o ./Core/BSP/Src/BSP.su ./Core/BSP/Src/EE24.cyclo ./Core/BSP/Src/EE24.d ./Core/BSP/Src/EE24.o ./Core/BSP/Src/EE24.su ./Core/BSP/Src/EEPROM.cyclo ./Core/BSP/Src/EEPROM.d ./Core/BSP/Src/EEPROM.o ./Core/BSP/Src/EEPROM.su ./Core/BSP/Src/FloatToString.cyclo ./Core/BSP/Src/FloatToString.d ./Core/BSP/Src/FloatToString.o ./Core/BSP/Src/FloatToString.su ./Core/BSP/Src/GPIO.cyclo ./Core/BSP/Src/GPIO.d ./Core/BSP/Src/GPIO.o ./Core/BSP/Src/GPIO.su ./Core/BSP/Src/LED.cyclo ./Core/BSP/Src/LED.d ./Core/BSP/Src/LED.o ./Core/BSP/Src/LED.su ./Core/BSP/Src/SCPI_ADC.cyclo ./Core/BSP/Src/SCPI_ADC.d ./Core/BSP/Src/SCPI_ADC.o ./Core/BSP/Src/SCPI_ADC.su ./Core/BSP/Src/SCPI_Calibration.cyclo ./Core/BSP/Src/SCPI_Calibration.d ./Core/BSP/Src/SCPI_Calibration.o ./Core/BSP/Src/SCPI_Calibration.su ./Core/BSP/Src/SCPI_Def.cyclo ./Core/BSP/Src/SCPI_Def.d ./Core/BSP/Src/SCPI_Def.o ./Core/BSP/Src/SCPI_Def.su ./Core/BSP/Src/SCPI_Format.cyclo ./Core/BSP/Src/SCPI_Format.d ./Core/BSP/Src/SCPI_Format.o ./Core/BSP/Src/SCPI_Format.su ./Core/BSP/Src/SCPI_Math.cyclo ./Core/BSP/Src/SCPI_Math.d ./Core/BSP/Src/SCPI_Math.o ./Core/BSP/Src/SCPI_Math.su ./Core/BSP/Src/SCPI_Measure.cyclo ./Core/BSP/Src/SCPI_Measure.d ./Core/BSP/Src/SCPI_Measure.o ./Core/BSP/Src/SCPI_Measure.su ./Core/BSP/Src/SCPI_Server.cyclo ./Core/BSP/Src/SCPI_Server.d ./Core/BSP/Src/SCPI_Server.o ./Core/BSP/Src/SCPI_Server.su ./Core/BSP/Src/SCPI_System.cyclo ./Core/BSP/Src/SCPI_System.d ./Core/BSP/Src/SCPI_System.o ./Core/BSP/Src/SCPI_System.su ./Core/BSP/Src/UDP.cyclo ./Core/BSP/Src/UDP.d ./Core/BSP/Src/UDP.o ./Core/BSP/Src/UDP.su ./Core/BSP/Src/Utility.cyclo ./Core/BSP/Src/Utility.d ./Core/BSP/Src/Utility.o ./Core/BSP/Src/Utility.su ./Core/BSP/Src/printf.cyclo ./Core/BSP/Src/printf.d ./Core/BSP/Src/printf.o ./Core/BSP/Src/printf.su
+	-$(RM) ./Core/BSP/Src/ADC.cyclo ./Core/BSP/Src/ADC.d ./Core/BSP/Src/ADC.o ./Core/BSP/Src/ADC.su ./Core/BSP/Src/BSP.cyclo ./Core/BSP/Src/BSP.d ./Core/BSP/Src/BSP.o ./Core/BSP/Src/BSP.su ./Core/BSP/Src/EE24.cyclo ./Core/BSP/Src/EE24.d ./Core/BSP/Src/EE24.o ./Core/BSP/Src/EE24.su ./Core/BSP/Src/EEPROM.cyclo ./Core/BSP/Src/EEPROM.d ./Core/BSP/Src/EEPROM.o ./Core/BSP/Src/EEPROM.su ./Core/BSP/Src/FloatToString.cyclo ./Core/BSP/Src/FloatToString.d ./Core/BSP/Src/FloatToString.o ./Core/BSP/Src/FloatToString.su ./Core/BSP/Src/GPIO.cyclo ./Core/BSP/Src/GPIO.d ./Core/BSP/Src/GPIO.o ./Core/BSP/Src/GPIO.su ./Core/BSP/Src/LED.cyclo ./Core/BSP/Src/LED.d ./Core/BSP/Src/LED.o ./Core/BSP/Src/LED.su ./Core/BSP/Src/SCPI_ADC.cyclo ./Core/BSP/Src/SCPI_ADC.d ./Core/BSP/Src/SCPI_ADC.o ./Core/BSP/Src/SCPI_ADC.su ./Core/BSP/Src/SCPI_Calculate.cyclo ./Core/BSP/Src/SCPI_Calculate.d ./Core/BSP/Src/SCPI_Calculate.o ./Core/BSP/Src/SCPI_Calculate.su ./Core/BSP/Src/SCPI_Calibration.cyclo ./Core/BSP/Src/SCPI_Calibration.d ./Core/BSP/Src/SCPI_Calibration.o ./Core/BSP/Src/SCPI_Calibration.su ./Core/BSP/Src/SCPI_Def.cyclo ./Core/BSP/Src/SCPI_Def.d ./Core/BSP/Src/SCPI_Def.o ./Core/BSP/Src/SCPI_Def.su ./Core/BSP/Src/SCPI_Format.cyclo ./Core/BSP/Src/SCPI_Format.d ./Core/BSP/Src/SCPI_Format.o ./Core/BSP/Src/SCPI_Format.su ./Core/BSP/Src/SCPI_Measure.cyclo ./Core/BSP/Src/SCPI_Measure.d ./Core/BSP/Src/SCPI_Measure.o ./Core/BSP/Src/SCPI_Measure.su ./Core/BSP/Src/SCPI_Server.cyclo ./Core/BSP/Src/SCPI_Server.d ./Core/BSP/Src/SCPI_Server.o ./Core/BSP/Src/SCPI_Server.su ./Core/BSP/Src/SCPI_System.cyclo ./Core/BSP/Src/SCPI_System.d ./Core/BSP/Src/SCPI_System.o ./Core/BSP/Src/SCPI_System.su ./Core/BSP/Src/UDP.cyclo ./Core/BSP/Src/UDP.d ./Core/BSP/Src/UDP.o ./Core/BSP/Src/UDP.su ./Core/BSP/Src/Utility.cyclo ./Core/BSP/Src/Utility.d ./Core/BSP/Src/Utility.o ./Core/BSP/Src/Utility.su ./Core/BSP/Src/printf.cyclo ./Core/BSP/Src/printf.d ./Core/BSP/Src/printf.o ./Core/BSP/Src/printf.su
 
 .PHONY: clean-Core-2f-BSP-2f-Src
 

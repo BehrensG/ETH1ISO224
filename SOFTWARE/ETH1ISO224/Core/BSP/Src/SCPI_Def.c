@@ -49,7 +49,7 @@
 #include "SCPI_Measure.h"
 #include "SCPI_Calibration.h"
 #include "SCPI_Format.h"
-#include "SCPI_Math.h"
+#include "SCPI_Calculate.h"
 #include "printf.h"
 #include "FloatToString.h"
 #include "BSP.h"
@@ -191,10 +191,10 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "INITiate[:IMMediate]", .callback = SCPI_Initiate,},
 	{.pattern = "*TRG", .callback = SCPI_Initiate,},
 
-	{.pattern = "NULL:OFFSet:ENAble", .callback = SCPI_NullOffsetEnable,},
-	{.pattern = "NULL:OFFSet:ENAble?", .callback = SCPI_NullOffsetEnableQ,},
-	{.pattern = "NULL:OFFSet", .callback = SCPI_NullOffset,},
-	{.pattern = "NULL:OFFSet?", .callback = SCPI_NullOffsetQ,},
+	{.pattern = "ADC:NULL:OFFSet:ENAble", .callback = SCPI_NullOffsetEnable,},
+	{.pattern = "ADC:NULL:OFFSet:ENAble?", .callback = SCPI_NullOffsetEnableQ,},
+	{.pattern = "ADC:NULL:OFFSet", .callback = SCPI_NullOffset,},
+	{.pattern = "ADC:NULL:OFFSet?", .callback = SCPI_NullOffsetQ,},
 
 	{.pattern = "CALibration:COUNt?", .callback = SCPI_CalibrationCountQ,},
 	{.pattern = "CALibration:STORe", .callback = SCPI_CalibrationStore,},
@@ -205,11 +205,11 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "FORMat[:DATA]", .callback = SCPI_FormatData,},
 	{.pattern = "FORMat[:DATA]?", .callback = SCPI_FormatDataQ,},
 
-	{.pattern = "MATH:AVERage?", .callback = SCPI_MathAverageQ,},
-	{.pattern = "MATH:OFFSet:ENAble", .callback = SCPI_MathOffsetEnable,},
-	{.pattern = "MATH:OFFSet:ENAble?", .callback = SCPI_MathOffsetEnableQ,},
-	{.pattern = "MATH:OFFSet", .callback = SCPI_MathOffset,},
-	{.pattern = "MATH:OFFSet?", .callback = SCPI_MathOffsetQ,},
+	{.pattern = "CALCulate:AVERage?", .callback = SCPI_CalculateAverageQ,},
+	{.pattern = "CALCulate:OFFSet:ENAble", .callback = SCPI_CalculateOffsetEnable,},
+	{.pattern = "CALCulate:OFFSet:ENAble?", .callback = SCPI_CalculateOffsetEnableQ,},
+	{.pattern = "CALCulate:OFFSet", .callback = SCPI_CalculateOffset,},
+	{.pattern = "CALCulate:OFFSet?", .callback = SCPI_CalculateOffsetQ,},
 
 	SCPI_CMD_LIST_END
 };
