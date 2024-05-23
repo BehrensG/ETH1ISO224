@@ -29,10 +29,16 @@ static void BSP_Init_Common()
 	bsp.adc.sample_count = ADC_DEF_SIZE;
 	bsp.adc.vcom = ADC_VCOM;
 	bsp.adc.resolution = (float)(ADC_VREF/pow(2.0,(double)bsp.adc.bits));
+
 	bsp.adc.offset.zero[0] = 0.0f;
 	bsp.adc.offset.zero[1] = 0.0f;
 	bsp.adc.offset.zero[2] = 0.0f;
 	bsp.adc.offset.enable = false;
+
+	bsp.adc.math_offset.zero[0] = 0.0f;
+	bsp.adc.math_offset.zero[1] = 0.0f;
+	bsp.adc.math_offset.zero[2] = 0.0f;
+	bsp.adc.math_offset.enable = false;
 
 	bsp.adc.sampling_time = ADC_SAMPLETIME_1CYCLE_5;
 
