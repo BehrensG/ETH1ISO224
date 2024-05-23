@@ -62,9 +62,6 @@ scpi_result_t SCPI_CalculateOffset(scpi_t * context)
 
 	if(pdTRUE == xSemaphoreTake(MeasMutex, pdMS_TO_TICKS(20000)))
 	{
-		HAL_Delay(10);
-		GPIO_DG419(true);
-		HAL_Delay(200);
 
 	 bsp.adc.math_offset.enable = false;
 
@@ -81,17 +78,10 @@ scpi_result_t SCPI_CalculateOffset(scpi_t * context)
 			bsp.adc.math_offset.enable = null_offset_state;
 
 
-			HAL_Delay(1);
-			GPIO_DG419(false);
-			HAL_Delay(100);
-
 			return SCPI_RES_ERR;
 
 		}
 
-		HAL_Delay(1);
-		GPIO_DG419(false);
-		HAL_Delay(100);
 		bsp.adc.math_offset.enable = null_offset_state;
 		xSemaphoreGive(MeasMutex);
 

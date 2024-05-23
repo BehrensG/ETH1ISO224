@@ -77,8 +77,8 @@ all: main-build
 main-build: ETH1ISO224.elf secondary-outputs
 
 # Tool invocations
-ETH1ISO224.elf ETH1ISO224.map: $(OBJS) $(USER_OBJS) D:\tmp\ETH1ISO224\SOFTWARE\ETH1ISO224\STM32H743VITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "ETH1ISO224.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"D:\tmp\ETH1ISO224\SOFTWARE\ETH1ISO224\STM32H743VITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ETH1ISO224.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+ETH1ISO224.elf ETH1ISO224.map: $(OBJS) $(USER_OBJS) /home/grzegorz/git/ETH1ISO224/SOFTWARE/ETH1ISO224/STM32H743VITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "ETH1ISO224.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/home/grzegorz/git/ETH1ISO224/SOFTWARE/ETH1ISO224/STM32H743VITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ETH1ISO224.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
