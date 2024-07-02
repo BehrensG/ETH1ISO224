@@ -451,8 +451,6 @@ scpi_choice_def_t EEPROM_state_select[] = {
 
 scpi_result_t SCPI_SystemServiceEeprom(scpi_t *context) {
 	int32_t select = 0;
-	uint32_t nominal_current = 6;
-	float multiplier = 2.0;
 
 	char str[STRING_LENGTH] = { 0 };
 	size_t len = 0;
