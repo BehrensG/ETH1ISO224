@@ -61,7 +61,7 @@ void MX_LWIP_Init(void)
   IP_ADDRESS[0] = 192;
   IP_ADDRESS[1] = 168;
   IP_ADDRESS[2] = 1;
-  IP_ADDRESS[3] = 21;
+  IP_ADDRESS[3] = 17;
   NETMASK_ADDRESS[0] = 255;
   NETMASK_ADDRESS[1] = 255;
   NETMASK_ADDRESS[2] = 255;
@@ -72,18 +72,20 @@ void MX_LWIP_Init(void)
   GATEWAY_ADDRESS[3] = 1;
 
 /* USER CODE BEGIN IP_ADDRESSES */
-  IP_ADDRESS[0] = bsp.eeprom.structure.ip4_static.ip[0];
-  IP_ADDRESS[1] = bsp.eeprom.structure.ip4_static.ip[1];
-  IP_ADDRESS[2] = bsp.eeprom.structure.ip4_static.ip[2];
-  IP_ADDRESS[3] = bsp.eeprom.structure.ip4_static.ip[3];
-  NETMASK_ADDRESS[0] = bsp.eeprom.structure.ip4_static.netmask[0];
-  NETMASK_ADDRESS[1] = bsp.eeprom.structure.ip4_static.netmask[1];
-  NETMASK_ADDRESS[2] = bsp.eeprom.structure.ip4_static.netmask[2];
-  NETMASK_ADDRESS[3] = bsp.eeprom.structure.ip4_static.netmask[3];
-  GATEWAY_ADDRESS[0] = bsp.eeprom.structure.ip4_static.gateway[0];
-  GATEWAY_ADDRESS[1] = bsp.eeprom.structure.ip4_static.gateway[1];
-  GATEWAY_ADDRESS[2] = bsp.eeprom.structure.ip4_static.gateway[2];
-  GATEWAY_ADDRESS[3] = bsp.eeprom.structure.ip4_static.gateway[3];
+  IP_ADDRESS[0] = bsp.ip4_current.ip[0];
+  IP_ADDRESS[1] = bsp.ip4_current.ip[1];
+  IP_ADDRESS[2] = bsp.ip4_current.ip[2];
+  IP_ADDRESS[3] = bsp.ip4_current.ip[3];
+
+  NETMASK_ADDRESS[0] = bsp.ip4_current.netmask[0];
+  NETMASK_ADDRESS[1] = bsp.ip4_current.netmask[1];
+  NETMASK_ADDRESS[2] = bsp.ip4_current.netmask[2];
+  NETMASK_ADDRESS[3] = bsp.ip4_current.netmask[3];
+
+  GATEWAY_ADDRESS[0] = bsp.ip4_current.gateway[0];
+  GATEWAY_ADDRESS[1] = bsp.ip4_current.gateway[1];
+  GATEWAY_ADDRESS[2] = bsp.ip4_current.gateway[2];
+  GATEWAY_ADDRESS[3] = bsp.ip4_current.gateway[3];
 /* USER CODE END IP_ADDRESSES */
 
   /* Initialize the LwIP stack with RTOS */

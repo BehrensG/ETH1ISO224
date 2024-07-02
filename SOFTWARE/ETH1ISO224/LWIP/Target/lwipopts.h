@@ -51,26 +51,56 @@
 /* Parameters set in STM32CubeMX LwIP Configuration GUI -*/
 /*----- Default value in ETH configuration GUI in CubeMx: 1524 -----*/
 #define ETH_RX_BUFFER_SIZE 1536
+/*----- Default Value for LWIP_IGMP: 0 ---*/
+#define LWIP_IGMP 1
+/*----- Default Value for MEMP_NUM_UDP_PCB: 4 ---*/
+#define MEMP_NUM_UDP_PCB 20
+/*----- Default Value for MEMP_NUM_TCP_PCB: 5 ---*/
+#define MEMP_NUM_TCP_PCB 20
+/*----- Default Value for MEMP_MEM_MALLOC: 0 ---*/
+#define MEMP_MEM_MALLOC 1
 /*----- Value in opt.h for MEM_ALIGNMENT: 1 -----*/
 #define MEM_ALIGNMENT 4
 /*----- Default Value for MEM_SIZE: 1600 ---*/
 #define MEM_SIZE 131048
 /*----- Default Value for H7 devices: 0x30044000 -----*/
 #define LWIP_RAM_HEAP_POINTER 0x30020000
+/*----- Default Value for MEMP_NUM_RAW_PCB: 4 ---*/
+#define MEMP_NUM_RAW_PCB 20
+/*----- Default Value for MEMP_NUM_TCP_PCB_LISTEN: 8 ---*/
+#define MEMP_NUM_TCP_PCB_LISTEN 20
+/*----- Default Value for MEMP_NUM_NETBUF: 2 ---*/
+#define MEMP_NUM_NETBUF 20
+/*----- Default Value for MEMP_NUM_NETCONN: 4 ---*/
+#define MEMP_NUM_NETCONN 20
+/*----- Default Value for MEMP_NUM_TCPIP_MSG_API: 8 ---*/
+#define MEMP_NUM_TCPIP_MSG_API 20
+/*----- Default Value for MEMP_NUM_SELECT_CB: 4 ---*/
+#define MEMP_NUM_SELECT_CB 20
 /*----- Value supported for H7 devices: 1 -----*/
 #define LWIP_SUPPORT_CUSTOM_PBUF 1
 /*----- Value in opt.h for LWIP_ETHERNET: LWIP_ARP || PPPOE_SUPPORT -*/
 #define LWIP_ETHERNET 1
+/*----- Default Value for LWIP_RAW: 0 ---*/
+#define LWIP_RAW 1
 /*----- Value in opt.h for LWIP_DNS_SECURE: (LWIP_DNS_SECURE_RAND_XID | LWIP_DNS_SECURE_NO_MULTIPLE_OUTSTANDING | LWIP_DNS_SECURE_RAND_SRC_PORT) -*/
 #define LWIP_DNS_SECURE 7
+/*----- Default Value for TCP_SYNMAXRTX: 6 ---*/
+#define TCP_SYNMAXRTX 12
+/*----- Default Value for LWIP_TCP_MAX_SACK_NUM: 4 ---*/
+#define LWIP_TCP_MAX_SACK_NUM 20
 /*----- Default Value for TCP_MSS: 536 ---*/
 #define TCP_MSS 1460
 /*----- Default Value for TCP_SND_BUF: 2920 ---*/
 #define TCP_SND_BUF 5840
 /*----- Default Value for TCP_SND_QUEUELEN: 17 ---*/
 #define TCP_SND_QUEUELEN 16
+/*----- Default Value for LWIP_NETIF_API: 0 ---*/
+#define LWIP_NETIF_API 1
 /*----- Value in opt.h for LWIP_NETIF_LINK_CALLBACK: 0 -----*/
 #define LWIP_NETIF_LINK_CALLBACK 1
+/*----- Default Value for LWIP_NUM_NETIF_CLIENT_DATA: 0 ---*/
+#define LWIP_NUM_NETIF_CLIENT_DATA 1
 /*----- Value in opt.h for TCPIP_THREAD_STACKSIZE: 0 -----*/
 #define TCPIP_THREAD_STACKSIZE 2048
 /*----- Value in opt.h for TCPIP_THREAD_PRIO: 1 -----*/
@@ -85,14 +115,28 @@
 #define DEFAULT_THREAD_STACKSIZE 1024
 /*----- Value in opt.h for DEFAULT_THREAD_PRIO: 1 -----*/
 #define DEFAULT_THREAD_PRIO 3
+/*----- Default Value for DEFAULT_RAW_RECVMBOX_SIZE: 0 ---*/
+#define DEFAULT_RAW_RECVMBOX_SIZE 20
 /*----- Value in opt.h for DEFAULT_UDP_RECVMBOX_SIZE: 0 -----*/
-#define DEFAULT_UDP_RECVMBOX_SIZE 6
+#define DEFAULT_UDP_RECVMBOX_SIZE 20
 /*----- Value in opt.h for DEFAULT_TCP_RECVMBOX_SIZE: 0 -----*/
-#define DEFAULT_TCP_RECVMBOX_SIZE 6
+#define DEFAULT_TCP_RECVMBOX_SIZE 20
 /*----- Value in opt.h for DEFAULT_ACCEPTMBOX_SIZE: 0 -----*/
-#define DEFAULT_ACCEPTMBOX_SIZE 6
+#define DEFAULT_ACCEPTMBOX_SIZE 20
+/*----- Value in opt.h for LWIP_SOCKET: 1 -----*/
+#define LWIP_SOCKET 0
 /*----- Value in opt.h for RECV_BUFSIZE_DEFAULT: INT_MAX -----*/
 #define RECV_BUFSIZE_DEFAULT 2000000000
+/*----- Default Value for LWIP_HTTPD: 0 ---*/
+#define LWIP_HTTPD 1
+/*----- Default Value for LWIP_MDNS: 0 ---*/
+#define LWIP_MDNS 1
+/*----- Default Value for LWIP_MDNS_RESPONDER: 0 ---*/
+#define LWIP_MDNS_RESPONDER 1
+/*----- Default Value for MDNS_MAX_SERVICES: 0 ---*/
+#define MDNS_MAX_SERVICES 4
+/*----- Default Value for MDNS_RESP_USENETIF_EXTCALLBACK: 0 ---*/
+#define MDNS_RESP_USENETIF_EXTCALLBACK 4
 /*----- Value in opt.h for LWIP_STATS: 1 -----*/
 #define LWIP_STATS 0
 /*----- Value in opt.h for CHECKSUM_GEN_IP: 1 -----*/
@@ -113,7 +157,7 @@
 #define CHECKSUM_CHECK_ICMP6 0
 /*-----------------------------------------------------------------------------*/
 /* USER CODE BEGIN 1 */
-#define LWIP_SO_RCVTIMEO	1
+#define LWIP_SO_RCVTIMEO	0
 /* USER CODE END 1 */
 
 #ifdef __cplusplus

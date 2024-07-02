@@ -9,7 +9,7 @@
 
 #if (_EEPROM_USE_FREERTOS == 1)
 #include "cmsis_os.h"
-#define ee24_delay(x)   osDelay(x)
+#define ee24_delay(x)   vTaskDelay(pdMS_TO_TICKS(x))
 #else
 #define ee24_delay(x)   HAL_Delay(x)
 #endif

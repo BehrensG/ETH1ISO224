@@ -13,7 +13,7 @@
 #include "main.h"
 #include "ip_addr.h"
 
-/*************************************** ETHERNET ***************************************/
+// --------------------------------------------------------------------------------------------------------------------
 
 #define IP_ADDRESS_0 192
 #define IP_ADDRESS_1 168
@@ -37,16 +37,16 @@
 #define MAC_4 0x00
 #define MAC_5 0x00
 
-
+// --------------------------------------------------------------------------------------------------------------------
 
 #define STRING_LENGTH 		16
-
-#define PASSWORD "ETH1ISO224"
 
 #define TCPIP_DEFAULT_PORT 2000
 
 #define SELECT_ADC1		1
 #define SELECT_ADC2		2
+
+// --------------------------------------------------------------------------------------------------------------------
 
 typedef enum bsp_result
 {
@@ -70,11 +70,15 @@ typedef enum bsp_result
 
 } bsp_result_t;
 
+// --------------------------------------------------------------------------------------------------------------------
+
 typedef enum format_data_enum
 {
 	FORMAT_DATA_ASCII = 0,
 	FORMAT_DATA_REAL32 = 1
 }format_data_t;
+
+// --------------------------------------------------------------------------------------------------------------------
 
 #pragma pack(push, 1)
 
@@ -83,7 +87,6 @@ typedef struct
 {
 
 	char serial_number[STRING_LENGTH];
-	char software_version[STRING_LENGTH];
 
 }bsp_scpi_info_t;
 
@@ -94,8 +97,6 @@ typedef struct
 	uint8_t netmask[4];
 	uint8_t gateway[4];
 	uint8_t MAC[6];
-	uint16_t tcp_port;
-	uint16_t udp_port;
 
 }bsp_ip4_lan_t;
 
@@ -108,8 +109,14 @@ typedef struct
 
 }bsp_calibration_t;
 
+typedef struct
+{
+	uint8_t mdns;
+	uint8_t hislip;
 
-#define EEPROM_CFG_SIZE 	sizeof(bsp_ip4_lan_t) + sizeof(bsp_scpi_info_t) + sizeof(bsp_calibration_t)
+}bsp_services_t;
+
+#define EEPROM_CFG_SIZE 	sizeof(bsp_ip4_lan_t) + sizeof(bsp_scpi_info_t) + sizeof(bsp_calibration_t) + sizeof(bsp_services_t)
 
 typedef union
 {
@@ -119,6 +126,7 @@ typedef union
 		bsp_ip4_lan_t ip4_static;
 		bsp_scpi_info_t info;
 		bsp_calibration_t calibration;
+		bsp_services_t services;
 
 	}structure;
 	uint8_t bytes[EEPROM_CFG_SIZE];
@@ -127,6 +135,7 @@ typedef union
 
 #pragma pack(pop)
 
+// --------------------------------------------------------------------------------------------------------------------
 
 typedef struct
 {
@@ -134,6 +143,7 @@ typedef struct
 
 }bsp_security_t;
 
+// --------------------------------------------------------------------------------------------------------------------
 
 typedef struct
 {
@@ -142,12 +152,16 @@ typedef struct
 
 }bsp_oversampling_t;
 
+// --------------------------------------------------------------------------------------------------------------------
+
 typedef struct
 {
 	bool enable;
 	float zero[3];
 
 }bsp_offset_t;
+
+// --------------------------------------------------------------------------------------------------------------------
 
 typedef struct
 {
@@ -156,11 +170,14 @@ typedef struct
 
 }bsp_gain_t;
 
+// --------------------------------------------------------------------------------------------------------------------
+
 typedef struct
 {
 	bsp_oversampling_t oversampling;
 	uint8_t bits;
 	uint32_t sampling_time;
+	float cycles;
 	bsp_gain_t gain;
 	uint32_t sample_count;
 	float vcom;
@@ -171,12 +188,17 @@ typedef struct
 
 }bsp_adc_t;
 
+// --------------------------------------------------------------------------------------------------------------------
+
 typedef struct
 {
-	float multiply;
-	float gain;
+	float measuring_range;
+	float resolution;
+	float signal_multiplier;
 
-}bsp_iso224_t;
+}bsp_hmsr_sms_t;
+
+// --------------------------------------------------------------------------------------------------------------------
 
 typedef struct
 {
@@ -188,10 +210,39 @@ typedef struct
 
 }udp_client_t;
 
+// --------------------------------------------------------------------------------------------------------------------
+
 typedef struct
 {
 	format_data_t data;
 }format_t;
+
+// --------------------------------------------------------------------------------------------------------------------
+
+typedef struct
+{
+	uint16_t tcp_port;
+	uint16_t udp_port;
+}scpi_raw_t;
+
+// --------------------------------------------------------------------------------------------------------------------
+
+typedef enum
+{
+	VISA_SCPI_RAW,
+	VISA_HISLIP
+}bsp_resource_t;
+
+// --------------------------------------------------------------------------------------------------------------------
+
+typedef struct
+{
+	float multiply;
+	float gain;
+
+}bsp_iso224_t;
+
+// --------------------------------------------------------------------------------------------------------------------
 
 typedef struct
 {
@@ -201,11 +252,14 @@ typedef struct
 	bool default_cfg;
 	bool led;
 	bsp_adc_t adc;
-	bsp_iso224_t iso224;
 	udp_client_t udp_client;
 	format_t format;
+	bsp_iso224_t iso224;
+	scpi_raw_t scpi_raw;
+	bsp_resource_t resource;
 }bsp_t;
 
+// --------------------------------------------------------------------------------------------------------------------
 
 bsp_result_t BSP_Init();
 

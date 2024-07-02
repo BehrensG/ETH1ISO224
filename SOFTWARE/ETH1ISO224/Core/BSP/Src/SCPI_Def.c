@@ -34,6 +34,8 @@
  *
  */
 
+// --------------------------------------------------------------------------------------------------------------------
+
 //#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -53,6 +55,14 @@
 #include "printf.h"
 #include "FloatToString.h"
 #include "BSP.h"
+#include "GPIO.h"
+#include "ADC.h"
+
+// --------------------------------------------------------------------------------------------------------------------
+
+extern bsp_t bsp;
+
+// --------------------------------------------------------------------------------------------------------------------
 
 scpi_choice_def_t scpi_boolean_select[] =
 {
@@ -63,32 +73,50 @@ scpi_choice_def_t scpi_boolean_select[] =
     SCPI_CHOICE_LIST_END
 };
 
-
+// --------------------------------------------------------------------------------------------------------------------
 
 static scpi_result_t SCPI_Rst(scpi_t * context)
 {
-	HAL_NVIC_SystemReset();
-    return SCPI_RES_OK;
+	// DO NOT MAKE A HARD RESET !
+	BSP_Init();
+	ADC_InitMemory();
+	ADC_Reset(bsp.adc.sampling_time);
+	ADC_AutoCalibration();
+	GPIO_SelectGain(bsp.adc.gain.value);
+	return SCPI_RES_OK;
 }
+
+
+// --------------------------------------------------------------------------------------------------------------------
 
 static scpi_result_t SCPI_IdnQ(scpi_t * context)
 {
 	int32_t ptr = 0;
-	static char info[46] = {'\0'};
+	char info[46];
+	memset(info, 0, 46);
 
     for (uint8_t i = 0; i < 4; i++)
     {
         if (context->idn[i])
         {
-        	ptr += snprintf(info + ptr, sizeof(info) - ptr, "%s,", context->idn[i] );
+        	if(3 == i)
+        	{
+        		ptr += snprintf(info + ptr, sizeof(info) - ptr, "%s", context->idn[i] );
+        	}
+        	else
+        	{
+        		ptr += snprintf(info + ptr, sizeof(info) - ptr, "%s,", context->idn[i] );
+        	}
+
         }
-        else{}
     }
 
-    SCPI_ResultCharacters(context, info, 45);
+    SCPI_ResultCharacters(context, info, strlen(info));
     return SCPI_RES_OK;
 }
 
+
+// --------------------------------------------------------------------------------------------------------------------
 
 #define TEX_SIZE	256
 
@@ -109,12 +137,15 @@ scpi_result_t SCPI_SystemErrorQ(scpi_t * context)
 }
 
 
-extern bsp_t bsp;
+// --------------------------------------------------------------------------------------------------------------------
 
 scpi_result_t SCPI_TS(scpi_t * context)
 {
     return SCPI_RES_OK;
 }
+
+
+// --------------------------------------------------------------------------------------------------------------------
 
 const scpi_command_t scpi_commands[] = {
     /* IEEE Mandated Commands (SCPI std V1999.0 4.1.1) */
@@ -152,20 +183,20 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "SYSTem:COMMunicate:LAN:GATEway?", .callback = SCPI_SystemCommunicateLanGatewayQ,},
 	{.pattern = "SYSTem:COMMunicate:LAN:MAC", .callback = SCPI_SystemCommunicateLanMac,},
 	{.pattern = "SYSTem:COMMunicate:LAN:MAC?", .callback = SCPI_SystemCommunicateLanMacQ,},
-	{.pattern = "SYSTem:COMMunicate:LAN:TCPIP:PORT", .callback = SCPI_SystemCommunicateLanTcpIpPort,},
-	{.pattern = "SYSTem:COMMunicate:LAN:TCPIP:PORT?", .callback = SCPI_SystemCommunicateLanTcpIpPortQ,},
-	{.pattern = "SYSTem:COMMunicate:LAN:UDP:PORT", .callback = SCPI_SystemCommunicateLanUdpPort,},
-	{.pattern = "SYSTem:COMMunicate:LAN:UDP:PORT?", .callback = SCPI_SystemCommunicateLanUdpPortQ,},
 	{.pattern = "SYSTem:COMMunicate:LAN:UPDate", .callback = SCPI_SystemCommunicationLanUpdate,},
 	{.pattern = "SYSTem:SECure:STATe", .callback = SCPI_SystemSecureState,},
 	{.pattern = "SYSTem:SECure:STATe?", .callback = SCPI_SystemSecureStateQ,},
-
+	{.pattern = "SYSTem:SERVice:MDNS[:ENAble]", .callback = SCPI_SystemServiceMDNSEnable,},
+	{.pattern = "SYSTem:SERVice:MDNS[:ENAble]?", .callback = SCPI_SystemServiceMDNSEnableQ,},
+	{.pattern = "SYSTem:SERVice:HISLIP[:ENAble]", .callback = SCPI_SystemServiceHISLIPEnable,},
+	{.pattern = "SYSTem:SERVice:HISLIP[:ENAble]?", .callback = SCPI_SystemServiceHISLIPEnableQ,},
 	{.pattern = "SYSTem:SERVice:EEPROM", .callback = SCPI_SystemServiceEeprom,},
 	{.pattern = "SYSTem:SERVice:LED[:ENAble]", .callback = SCPI_SystemServiceLEDEnable,},
 	{.pattern = "SYSTem:SERVice:LED[:ENAble]?", .callback = SCPI_SystemServiceLEDEnableQ,},
 	{.pattern = "SYSTem:SERVice:LED:PING", .callback = SCPI_SystemServiceLEDPing,},
+	{.pattern = "SYSTem:SERVice:RESET", .callback = SCPI_SystemServiceReset,},
 
-	{.pattern = "TS", .callback = SCPI_TS,},
+	//{.pattern = "TS", .callback = SCPI_TS,},
 
 
 	{.pattern = "CONFiguration:RESOLution", .callback = SCPI_AdcConfigurationResolution,},
@@ -214,6 +245,8 @@ const scpi_command_t scpi_commands[] = {
 	SCPI_CMD_LIST_END
 };
 
+// --------------------------------------------------------------------------------------------------------------------
+
 scpi_interface_t scpi_interface = {
     .error = SCPI_Error,
     .write = SCPI_Write,
@@ -222,7 +255,20 @@ scpi_interface_t scpi_interface = {
     .reset = SCPI_Reset,
 };
 
+// --------------------------------------------------------------------------------------------------------------------
+
+scpi_interface_t scpi_hislip_interface = {
+    .error = SCPI_Error,
+    .write = SCPI_WriteHiSLIP,
+    .control = SCPI_Control,
+    .flush = SCPI_Flush,
+    .reset = SCPI_Reset,
+};
+
+// --------------------------------------------------------------------------------------------------------------------
+
 char scpi_input_buffer[SCPI_INPUT_BUFFER_LENGTH];
 scpi_error_t scpi_error_queue_data[SCPI_ERROR_QUEUE_SIZE];
 
 scpi_t scpi_context;
+scpi_t scpi_hislip_context;

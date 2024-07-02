@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 #include "LED.h"
 #include "cmsis_os.h"
+#include "BSP.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -33,7 +34,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+extern bsp_t bsp;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -202,7 +203,8 @@ void TIM3_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM3_IRQn 0 */
 	static uint8_t led_color_send;
-	led_color_send = GREEN;
+	(bsp.default_cfg) ? (led_color_send = BLUE) : (led_color_send = GREEN) ;
+
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
   /* USER CODE END TIM3_IRQn 0 */
   HAL_TIM_IRQHandler(&htim3);

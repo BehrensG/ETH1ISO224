@@ -181,7 +181,10 @@ SECTIONS
     *(.MEAS_BUFF*)
   } > DTCMRAM
 
-
+  .DTCMRAMbuffers(NOLOAD) : {
+    . = ALIGN(4);
+    *(.SCPI_READOUT_BUF*)
+  } > RAM_D3
   /* Remove information from the standard libraries */
   /DISCARD/ :
   {

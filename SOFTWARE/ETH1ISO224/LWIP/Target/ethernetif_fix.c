@@ -206,12 +206,12 @@ static void low_level_init(struct netif *netif)
 
    uint8_t MACAddr[6] ;
   heth.Instance = ETH;
-  MACAddr[0] = 0x00;
-  MACAddr[1] = 0x80;
-  MACAddr[2] = 0xE1;
-  MACAddr[3] = 0x00;
-  MACAddr[4] = 0x00;
-  MACAddr[5] = 0x00;
+  MACAddr[0] = 0x03;
+  MACAddr[1] = 0x71;
+  MACAddr[2] = 0x66;
+  MACAddr[3] = 0x75;
+  MACAddr[4] = 0xCE;
+  MACAddr[5] = 0xB9;
   heth.Init.MACAddr = &MACAddr[0];
   heth.Init.MediaInterface = HAL_ETH_RMII_MODE;
   heth.Init.TxDesc = DMATxDscrTab;
@@ -219,12 +219,12 @@ static void low_level_init(struct netif *netif)
   heth.Init.RxBuffLen = 1536;
 
   /* USER CODE BEGIN MACADDRESS */
-  MACAddr[0] = bsp.eeprom.structure.ip4_static.MAC[0];
-  MACAddr[1] = bsp.eeprom.structure.ip4_static.MAC[1];
-  MACAddr[2] = bsp.eeprom.structure.ip4_static.MAC[2];
-  MACAddr[3] = bsp.eeprom.structure.ip4_static.MAC[3];
-  MACAddr[4] = bsp.eeprom.structure.ip4_static.MAC[4];
-  MACAddr[5] = bsp.eeprom.structure.ip4_static.MAC[5];
+  MACAddr[0] = bsp.ip4_current.MAC[0];
+  MACAddr[1] = bsp.ip4_current.MAC[1];
+  MACAddr[2] = bsp.ip4_current.MAC[2];
+  MACAddr[3] = bsp.ip4_current.MAC[3];
+  MACAddr[4] = bsp.ip4_current.MAC[4];
+  MACAddr[5] = bsp.ip4_current.MAC[5];
   heth.Init.MACAddr = &MACAddr[0];
   /* USER CODE END MACADDRESS */
 
@@ -263,6 +263,8 @@ static void low_level_init(struct netif *netif)
   #else
     netif->flags |= NETIF_FLAG_BROADCAST;
   #endif /* LWIP_ARP */
+
+    netif->flags |= NETIF_FLAG_IGMP;
 
   /* create a binary semaphore used for informing ethernetif of frame reception */
   osSemaphoreDef(RxSem);
@@ -350,6 +352,15 @@ static void low_level_init(struct netif *netif)
 #endif /* LWIP_ARP || LWIP_ETHERNET */
 
 /* USER CODE BEGIN LOW_LEVEL_INIT */
+
+  ETH_MACFilterConfigTypeDef FilterConfig;
+
+  HAL_ETH_GetMACFilterConfig(&heth,&FilterConfig);
+
+  FilterConfig.PromiscuousMode = 1;
+  FilterConfig.PassAllMulticast = 1;
+
+  HAL_ETH_SetMACFilterConfig(&heth,&FilterConfig);
 
 /* USER CODE END LOW_LEVEL_INIT */
 }

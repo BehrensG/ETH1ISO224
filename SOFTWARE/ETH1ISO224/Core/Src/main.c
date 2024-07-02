@@ -28,6 +28,11 @@
 #include "LED.h"
 #include "ADC.h"
 #include "UDP.h"
+
+
+#include "multicastDNS.h"
+#include "HTTP_Task.h"
+#include "HiSLIP_Task.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -37,6 +42,13 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+static void nop_delay(void)
+{
+	for(uint32_t i = 0; i < 5000000; i++)
+	{
+		__NOP();
+	}
+}
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -93,7 +105,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+	nop_delay(); // Delay to get mDNS working.
   /* USER CODE END 1 */
 
   /* MPU Configuration--------------------------------------------------------*/
@@ -119,7 +131,7 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 
-/* Configure the peripherals common clocks */
+  /* Configure the peripherals common clocks */
   PeriphCommonClock_Config();
 
   /* USER CODE BEGIN SysInit */
@@ -134,10 +146,11 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   LED_Control(BLUE, true);
-  HAL_Delay(500);
+  HAL_Delay(100);
   BSP_Init();
   ADC_AutoCalibration();
   ADC_InitMemory();
+
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -292,7 +305,7 @@ static void MX_ADC3_Init(void)
   /** Common config
   */
   hadc3.Instance = ADC3;
-  hadc3.Init.Resolution = ADC_RESOLUTION_16B;
+  hadc3.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
   hadc3.Init.ScanConvMode = ADC_SCAN_DISABLE;
   hadc3.Init.EOCSelection = ADC_EOC_SEQ_CONV;
   hadc3.Init.LowPowerAutoWait = DISABLE;
@@ -305,6 +318,12 @@ static void MX_ADC3_Init(void)
   hadc3.Init.Overrun = ADC_OVR_DATA_PRESERVED;
   hadc3.Init.LeftBitShift = ADC_LEFTBITSHIFT_NONE;
   hadc3.Init.OversamplingMode = DISABLE;
+  hadc3.Init.Oversampling.Ratio = 1;
+  if (HAL_ADC_Init(&hadc3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  hadc3.Init.Resolution = ADC_RESOLUTION_16B;
   if (HAL_ADC_Init(&hadc3) != HAL_OK)
   {
     Error_Handler();
@@ -475,7 +494,15 @@ static void MX_GPIO_Init(void)
   LL_GPIO_Init(MCU_DEFAULT_GPIO_Port, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = MCU_G100_Pin|MCU_G10_Pin|MCU_G1_Pin|MCU_ZOFFS_Pin;
+  GPIO_InitStruct.Pin = MCU_G100_Pin|MCU_ZOFFS_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /**/
+  GPIO_InitStruct.Pin = MCU_G10_Pin|MCU_G1_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
@@ -524,22 +551,37 @@ void StartDefaultTask(void const * argument)
 
   if(bsp.default_cfg)
   {
-	   led_color_status = BLUE;
+	  led_color_status = BLUE;
 
   }
 
-  osDelay(pdMS_TO_TICKS(300)); // Need this wait to get lwip to work
+  vTaskDelay(pdMS_TO_TICKS(300)); // Need this wait to get lwip to work
+
   SCPI_CreateTask();
   UDP_CreateTask();
+
+  if(bsp.eeprom.structure.services.hislip)
+  {
+	  HISLIP_CreateTask();
+  }
+
+  if(bsp.eeprom.structure.services.mdns)
+  {
+	  MDNS_Init();
+  }
+
+  HTTP_CreateTask();
+
   LED_Control(BLUE, false);
   HAL_TIM_Base_Start_IT(&htim3);
+
   /* Infinite loop */
   for(;;)
   {
 
 	  if(pdTRUE == xQueueReceive(QueueLEDHandle, &led_color_status, 5U))
 	  {
-		 // led_color_tmp = led_color_status;
+
 	  }
 	  else
 	  {
@@ -553,12 +595,12 @@ void StartDefaultTask(void const * argument)
 		  	  case RED: LED_Toggle(RED, 50, 1); break;
 		  	  case GREEN: LED_Toggle(GREEN, 1, 1); break;
 		  	  case BLUE: LED_Toggle(BLUE, 1, 1); break;
-		  	  default: osDelay(pdMS_TO_TICKS(1)); break;
+		  	  default: vTaskDelay(pdMS_TO_TICKS(1)); break;
 		  }
 	  }
 	  else
 	  {
-		  osDelay(pdMS_TO_TICKS(1));
+		  vTaskDelay(pdMS_TO_TICKS(1));
 	  }
 
   }

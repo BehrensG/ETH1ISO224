@@ -5,41 +5,92 @@
  *      Author: grzegorz
  */
 
-
+// --------------------------------------------------------------------------------------------------------------------
 #include "cmsis_os.h"
+#include "api.h"
 
 #include "SCPI_Measure.h"
 #include "BSP.h"
 #include "ADC.h"
 #include "GPIO.h"
 #include "Utility.h"
+#include "HiSLIP.h"
+
+// --------------------------------------------------------------------------------------------------------------------
 
 extern float measurements[];
 extern bsp_t bsp;
 extern scpi_choice_def_t scpi_boolean_select[];
 extern SemaphoreHandle_t MeasMutex;
 
+// --------------------------------------------------------------------------------------------------------------------
+
 #define MAX_SAMPLES_IN_PACKAGE	1000
+
+// --------------------------------------------------------------------------------------------------------------------
+
+static scpi_result_t HISLIP_Result(scpi_t* context, char* str, size_t hislip_size)
+{
+	hislip_instr_t* hislip_instr = (hislip_instr_t*)context->user_context;
+
+	if(ERR_OK != netconn_write(hislip_instr->netconn.newconn, str,
+			hislip_size, NETCONN_NOCOPY))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	return SCPI_RES_OK;
+}
+
+
+// --------------------------------------------------------------------------------------------------------------------
 
 static scpi_result_t SCPI_ResultASCII(scpi_t * context, float* measurements, uint32_t sample_count)
 {
 	char* str;
+	size_t hislip_size = 0;
+	scpi_result_t result = SCPI_RES_OK;
 
-	str = UTIL_FloatArrayToASCII(measurements, sample_count);
-	SCPI_ResultCharacters(context, str, strlen(str));
+	str = UTIL_FloatArrayToASCII(context, NETCONN_TCP, measurements, sample_count, &hislip_size);
 
-	return SCPI_RES_OK;
+	if(VISA_SCPI_RAW == bsp.resource)
+	{
+		SCPI_ResultCharacters(context, str, strlen(str));
+	}
+	else if(VISA_HISLIP == bsp.resource)
+	{
+		result = HISLIP_Result(context, str, hislip_size);
+	}
+
+	return result;
 }
+
+
+// --------------------------------------------------------------------------------------------------------------------
 
 static scpi_result_t SCPI_ResultREAL(scpi_t * context, float* measurements, uint32_t sample_count)
 {
 	char* str;
+	size_t hislip_size = 0;
+	scpi_result_t result = SCPI_RES_OK;
 	uint32_t size = bsp.adc.sample_count * sizeof(float);
 
-	str = UTIL_FloatArrayToREAL(measurements, sample_count);
-	SCPI_ResultArbitraryBlock(context, str, size);
-	return SCPI_RES_OK;
+	str = UTIL_FloatArrayToREAL(context, NETCONN_TCP, measurements, sample_count, &hislip_size);
+
+	if(VISA_SCPI_RAW == bsp.resource)
+	{
+		SCPI_ResultArbitraryBlock(context, str, size);
+	}
+	else if(VISA_HISLIP == bsp.resource)
+	{
+		result = HISLIP_Result(context, str, hislip_size);
+	}
+
+	return result;
 }
+
+
+// --------------------------------------------------------------------------------------------------------------------
 
 scpi_result_t SCPI_MeasureQ(scpi_t * context)
 {
@@ -77,6 +128,9 @@ scpi_result_t SCPI_MeasureQ(scpi_t * context)
 
 }
 
+
+// --------------------------------------------------------------------------------------------------------------------
+
 scpi_result_t SCPI_FetchQ(scpi_t * context)
 {
 	if(pdTRUE == xSemaphoreTake(MeasMutex, pdMS_TO_TICKS(20000)))
@@ -102,6 +156,9 @@ scpi_result_t SCPI_FetchQ(scpi_t * context)
 
 }
 
+
+// --------------------------------------------------------------------------------------------------------------------
+
 scpi_result_t SCPI_Initiate(scpi_t * context)
 {
 	if(pdTRUE == xSemaphoreTake(MeasMutex, pdMS_TO_TICKS(20000)))
@@ -123,6 +180,8 @@ scpi_result_t SCPI_Initiate(scpi_t * context)
 }
 
 
+// --------------------------------------------------------------------------------------------------------------------
+
 static float MEAS_Average(uint32_t sample_count)
 {
 	float average = 0.0f;
@@ -138,6 +197,9 @@ static float MEAS_Average(uint32_t sample_count)
 	return average;
 }
 
+
+// --------------------------------------------------------------------------------------------------------------------
+
 scpi_result_t SCPI_NullOffsetEnable(scpi_t * context)
 {
 	int32_t value;
@@ -151,6 +213,9 @@ scpi_result_t SCPI_NullOffsetEnable(scpi_t * context)
 	return SCPI_RES_OK;
 }
 
+
+// --------------------------------------------------------------------------------------------------------------------
+
 scpi_result_t SCPI_NullOffsetEnableQ(scpi_t * context)
 {
 
@@ -158,6 +223,9 @@ scpi_result_t SCPI_NullOffsetEnableQ(scpi_t * context)
 
 	return SCPI_RES_OK;
 }
+
+
+// --------------------------------------------------------------------------------------------------------------------
 
 scpi_result_t SCPI_NullOffset(scpi_t * context)
 {
@@ -208,6 +276,9 @@ scpi_result_t SCPI_NullOffset(scpi_t * context)
 	}
 }
 
+
+// --------------------------------------------------------------------------------------------------------------------
+
 scpi_result_t SCPI_NullOffsetQ(scpi_t * context)
 {
 	uint32_t gain;
@@ -226,6 +297,9 @@ scpi_result_t SCPI_NullOffsetQ(scpi_t * context)
 	SCPI_ResultFloat(context, offset);
 	return SCPI_RES_OK;
 }
+
+
+// --------------------------------------------------------------------------------------------------------------------
 
 scpi_result_t SCPI_DataDataQ(scpi_t * context)
 {

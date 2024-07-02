@@ -16,6 +16,8 @@ RM := rm -rf
 -include Middlewares/Third_Party/LwIP/src/core/ipv4/subdir.mk
 -include Middlewares/Third_Party/LwIP/src/core/subdir.mk
 -include Middlewares/Third_Party/LwIP/src/apps/mqtt/subdir.mk
+-include Middlewares/Third_Party/LwIP/src/apps/mdns/subdir.mk
+-include Middlewares/Third_Party/LwIP/src/apps/http/subdir.mk
 -include Middlewares/Third_Party/LwIP/src/api/subdir.mk
 -include Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/subdir.mk
 -include Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/subdir.mk
@@ -27,8 +29,11 @@ RM := rm -rf
 -include Drivers/BSP/Components/lan8742/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
+-include Core/BSP/multicastDNS/Src/subdir.mk
 -include Core/BSP/Src/subdir.mk
 -include Core/BSP/SCPI/libscpi/src/subdir.mk
+-include Core/BSP/HiSLIP/Src/subdir.mk
+-include Core/BSP/HTTP/Src/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -78,7 +83,7 @@ main-build: ETH1ISO224.elf secondary-outputs
 
 # Tool invocations
 ETH1ISO224.elf ETH1ISO224.map: $(OBJS) $(USER_OBJS) /home/grzegorz/git/ETH1ISO224/SOFTWARE/ETH1ISO224/STM32H743VITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "ETH1ISO224.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/home/grzegorz/git/ETH1ISO224/SOFTWARE/ETH1ISO224/STM32H743VITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ETH1ISO224.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "ETH1ISO224.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/home/grzegorz/git/ETH1ISO224/SOFTWARE/ETH1ISO224/STM32H743VITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ETH1ISO224.map" -Wl,--gc-sections -static -L"/home/grzegorz/git/ETH1ISO224/SOFTWARE/ETH1ISO224/Drivers/CMSIS/Lib/GCC" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
