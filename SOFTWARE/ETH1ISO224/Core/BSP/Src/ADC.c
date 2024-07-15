@@ -103,7 +103,7 @@ void ADC_SignalConditioning(uint8_t gain, uint32_t sample_count, float offset, f
 	for(uint32_t x = 0; x < sample_count; x++)
 	{
 		adc = inv_gain * (bsp.adc.resolution * adc_data[x] - bsp.adc.vcom) + offset;
-		measurements[x] = calib_gain * bsp.iso224.multiply  * bsp.iso224.gain * adc + math_offset;
+		measurements[x] = calib_gain * bsp.iso224.multiply * bsp.iso224.gain * adc + math_offset;
 	}
 
 
