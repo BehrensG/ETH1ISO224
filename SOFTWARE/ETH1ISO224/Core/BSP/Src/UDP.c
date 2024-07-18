@@ -416,9 +416,15 @@ static err_t UDP_SendASCII() {
 // --------------------------------------------------------------------------------------------------------------------
 
 static void UDP_INITiate(void) {
-	if (!ADC_Measurement(bsp.adc.sample_count)) {
+
+	LED_osQueue(BLUE);
+
+	if (!ADC_Measurement(bsp.adc.sample_count))
+	{
 		LED_osQueue(RED);
-	} else {
+	}
+	else
+	{
 		(bsp.default_cfg) ? LED_osQueue(BLUE) : LED_osQueue(GREEN);
 	}
 }
@@ -427,6 +433,7 @@ static void UDP_INITiate(void) {
 // --------------------------------------------------------------------------------------------------------------------
 
 static bool UDP_Measure(udp_task_state_t state) {
+
 	LED_osQueue(BLUE);
 
 	if (UDP_STATE_FETCHQ != state) {
