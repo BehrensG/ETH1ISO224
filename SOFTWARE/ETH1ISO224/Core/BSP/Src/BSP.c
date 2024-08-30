@@ -46,6 +46,7 @@ static void BSP_Init_Common()
 
 	bsp.adc.sampling_time = ADC_SAMPLETIME_1CYCLE_5;
 	bsp.adc.cycles = 1.5;
+	bsp.adc.period = 0.2;
 	bsp.led = true;
 
 	bsp.iso224.multiply = 200.0f; // to reconstruct the signal we need to invert the dividers: voltage divider (100) * op-amp gain OPA2340 (2)
